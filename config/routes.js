@@ -14,8 +14,8 @@ module.exports = function () {
 
     //user
     router.post('/u/signup',User.signup);
-    router.post('/u/verify',User.verify);
-    router.post('/u/update',User.update);
+    router.post('/u/verify',App.hasBody,User.verify);
+    router.post('/u/update',App.hasToken,User.update);
 
     //app
     router.post('/u/signature',App.signature);

@@ -145,11 +145,23 @@ exports.update = convert(function *(next) {
 
     fields.forEach(function (field) {
         if(body[field]){
-            user
+            user[field] = xss(body[field].trim())
         }
     });
+
+    user = yield user.save();
+
     this.body = {
-        success: true
+        success: true,
+        data: {
+            nickname: user.nickname,
+            accessToken: user.accessToken,
+            avatar: user.avatar,
+            age: user.age,
+            breed: user.breed,
+            gender: user.gender,
+            _id: user._id
+        }
     }
 });
 

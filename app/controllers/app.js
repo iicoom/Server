@@ -23,7 +23,7 @@ exports.hasBody = convert(function *(next) {
 
         return next
     }
-    return next
+    yield next      //之前把这里搞成return就错了
 });
 
 exports.hasToken = convert(function *(next) {

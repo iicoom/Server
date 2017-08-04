@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8bb0660e-a71b-4608-97d3-51303b565e10" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/app.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/user.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/user.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/service/sms.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/app.js" afterPath="$PROJECT_DIR$/app/controllers/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/user.js" afterPath="$PROJECT_DIR$/app/controllers/user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.js" afterPath="$PROJECT_DIR$/config/routes.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -39,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="26" column="3" lean-forward="true" selection-start-line="26" selection-start-column="3" selection-end-line="26" selection-end-column="3" />
+            <state relative-caret-position="840">
+              <caret line="58" column="20" lean-forward="false" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -51,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="39" />
+            <state relative-caret-position="1672">
+              <caret line="143" column="31" lean-forward="false" selection-start-line="143" selection-start-column="25" selection-end-line="143" selection-end-column="31" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -78,8 +71,8 @@
       <file leaf-file-name="routes.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="20" column="29" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="29" />
+            <state relative-caret-position="225">
+              <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -101,6 +94,7 @@
       <find>var</find>
       <find>String</find>
       <find>if \(\!doc\.phoneNumber\)\{\n         let verifyCode \= sms\.getCode\(\)\; \/\/生成4位验证码\n         let accessToken \= uuid\.v4\(\)\;    \/\/生成4段的uuid \:\&quot;accessToken\&quot; \: \&quot;ca0e88be\-f94d\-46c8\-a5cd\-f57115ba2a96\&quot;\n\n         let user \= new User\(\{\n         nickname\: \'亲\～\'\,\n         phoneNumber\: phoneNumber\,\n         verifyCode\: verifyCode\,\n         accessToken\: accessToken\n         \}\)\;\n\n         try \{\n         user\.save\(function\(err\)\{\n         if\(err\)\{\n         console\.log\(err\)\n         \}else\{\n         console\.log\(\'验证码已发送\，注意查收\'\)\n         \}\n         \}\)\n         \}catch \(e\)\{\n         ctx\.body \= \{\n         success\: false\n         \}\n         \}\n         \/\/ 给手机发送验证码\n         let msg \= \'您的注册验证码是\：\' \+ verifyCode\;\n         sms\.send\(phoneNumber\,msg\)\n\n         \}\n         else if\(doc\)\{\n         ctx\.body \= \'嘿嘿\，这个手机号已经被注册了\！\'\n         \}\n         else if \(doc\.phoneNumber \&amp;\&amp; doc\.verifyCode \=\=\= verifyCode\)\{\n         ctx\.body \= \'恭喜您\，注册成功\！\'\n         \}</find>
+      <find>user</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -121,9 +115,9 @@
         <option value="$PROJECT_DIR$/app/service/sms.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/app/models/user.js" />
+        <option value="$PROJECT_DIR$/app/controllers/app.js" />
         <option value="$PROJECT_DIR$/config/routes.js" />
         <option value="$PROJECT_DIR$/app/controllers/user.js" />
-        <option value="$PROJECT_DIR$/app/controllers/app.js" />
       </list>
     </option>
   </component>
@@ -145,8 +139,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="270" />
-    <option name="y" value="23" />
+    <option name="x" value="617" />
+    <option name="y" value="37" />
     <option name="width" value="1280" />
     <option name="height" value="705" />
   </component>
@@ -319,12 +313,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1501657916384</updated>
-      <workItem from="1501657917703" duration="51506000" />
+      <workItem from="1501657917703" duration="54136000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51506000" />
+    <option name="totallyTimeSpent" value="54136000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -336,7 +330,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="270" y="23" width="1280" height="705" extended-state="0" />
+    <frame x="617" y="37" width="1280" height="705" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1477363" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -405,10 +399,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="22" column="18" lean-forward="true" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/config/routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="20" column="29" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="29" />
+        <state relative-caret-position="225">
+          <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
           </folding>
@@ -425,28 +427,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/app/controllers/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="22" column="18" lean-forward="true" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="26" column="3" lean-forward="true" selection-start-line="26" selection-start-column="3" selection-end-line="26" selection-end-column="3" />
+        <state relative-caret-position="1672">
+          <caret line="143" column="31" lean-forward="false" selection-start-line="143" selection-start-column="25" selection-end-line="143" selection-end-column="31" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/user.js">
+    <entry file="file://$PROJECT_DIR$/app/controllers/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="39" />
+        <state relative-caret-position="840">
+          <caret line="58" column="20" lean-forward="false" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
           </folding>
