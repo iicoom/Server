@@ -5,12 +5,28 @@
 import Koa from 'koa';
 import api from './api';
 import koaValidate from 'koa-validate';
+import middleware from './middleware';
+import locale from 'koa-locale';
+import i18n from 'koa-i18n';
 
 const app = new Koa();
 
+locale(app);
+app.use(i18n(app, {
+    directory: './config/locales',
+    locales: ['zh-CN', 'en'],
+    modes: [
+        'query',
+        'subdomain',
+        'cookie',
+        'header',
+        'url',
+    ],
+}));
+
 app.keys = ['secret'];
 koaValidate(app);
-//app.use(middleware());
+app.use(middleware());
 //app.use(auth());
 app.use(api());
 app.use(ctx => {

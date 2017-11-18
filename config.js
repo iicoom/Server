@@ -80,7 +80,7 @@ const devConfig = {
     db: 'mongodb://127.0.0.1/koa-test',
     redis: {
         port: 6379,
-        host: '101.201.197.163',
+        host: '127.0.0.1',
         auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwO'
     },
     AliPushCfg: {
@@ -104,7 +104,8 @@ const devConfig = {
         LOTTERY_WIN_REWARD_INTEGRAL: 'JBXXIpi3Hw58NY031B6g-na3Ye1RyM8Q_uXuPSaOgcc'
     },
     logServer: {
-        host: '101.201.197.163',
+        // host: '101.201.197.163',
+        host: '127.0.0.1',
         port: 33333
     },
     logdir: `${__dirname}/logs/`
