@@ -1,7 +1,10 @@
 import http from 'http';
 import app from '../app';
 import config from '../config'
-import { connectDatabase } from '../app/db';
+import { 
+    connectDatabase,
+    closeConnections 
+} from '../app/db';
 
 const port = process.env.PORT || 3000;
 

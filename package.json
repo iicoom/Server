@@ -52,12 +52,14 @@
     "koa-logger": "^3.0.1",
     "koa-router": "^7.2.1",
     "koa-session": "^5.4.0",
+    "koa-validate": "1.0.6",
     "lodash": "^4.17.4",
     "mongoose": "^4.11.5",
     "sha1": "^1.1.1",
     "speakeasy": "^2.0.0",
     "uuid": "^3.1.0",
-    "xss": "^0.3.3"
+    "xss": "^0.3.3",
+    "import-dir": "0.0.1"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",
