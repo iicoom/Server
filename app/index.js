@@ -6,9 +6,6 @@ import Koa from 'koa';
 import api from './api';
 import koaValidate from 'koa-validate';
 
-const logger = require('koa-logger');
-const session = require('koa-session');
-const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 
 app.keys = ['secret'];
