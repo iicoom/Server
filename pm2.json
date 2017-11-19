@@ -10,7 +10,8 @@
     "node_args": [],
     "args": [],
     "env": {
-      "NODE_ENV": "production"
+      //"NODE_ENV": "production"
+      "NODE_ENV": "development"
     }
   }]
 }

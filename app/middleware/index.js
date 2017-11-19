@@ -16,15 +16,15 @@ export default function middleware() {
         convert(accessLogger()),
         convert(helmet()), // reset HTTP headers (e.g. remove x-powered-by)
         convert(cors({
-            // origin: (request) => {
-            //     const origin = request.get('Origin');
-            //     if (origin && (/(\.yunfarm\.cn)($|:[0-9]*$)/.test(origin)
-            //         || (/(localhost)($|:[0-9]*$)/.test(origin))
-            //         || (/(127\.0\.0\.1)($|:[0-9]*$)/.test(origin)))) {
-            //         return origin;
-            //     }
-            //     return 'https://m.yunfarm.cn';
-            // }
+            origin: (request) => {
+                const origin = request.get('Origin');
+                if (origin && (/(\.yunfarm\.cn)($|:[0-9]*$)/.test(origin)
+                    || (/(localhost)($|:[0-9]*$)/.test(origin))
+                    || (/(127\.0\.0\.1)($|:[0-9]*$)/.test(origin)))) {
+                    return origin;
+                }
+                return 'https://m.yunfarm.cn';
+            }
         })),
         convert(bodyParser()),
         accessToken({
