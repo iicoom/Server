@@ -9,7 +9,7 @@ export default (router) => {
             ServerInfo.hostname = os.hostname();
             ServerInfo.service_name = process.env.name;
             ServerInfo.version = pkg.version;
-            ServerInfo.server = pkg.name
+            ServerInfo.server = pkg.name;
             ctx.body = ServerInfo;
         });
 }

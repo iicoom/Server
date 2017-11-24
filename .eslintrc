@@ -1,0 +1,24 @@
+{
+  "extends": "airbnb/base",
+  "parser": "babel-eslint",
+  "rules": {
+    "no-console": 0,
+    "no-underscore-dangle": 0,
+    "max-len": [1, 280, 2],
+    "no-param-reassign": [2, { "props": false }],
+    "arrow-body-style": 0,
+    "indent": ["error",4],
+    "spaced-comment":[0],
+    "comma-dangle": [0],
+    "quote-props": 0,
+    "no-unused-vars": 0,
+    "import/no-unresolved": 0,
+    "linebreak-style": [0, "windows"]
+  },
+  "env": {
+    "mocha": true
+  },
+  "globals": {
+    "__dirname": true
+  }
+}

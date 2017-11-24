@@ -1,37 +1,30 @@
 /**
- * Created by bjcwq on 16/7/28.
+ * Created by bj on 16/7/28.
  */
 const env = process.env.NODE_ENV;
 
 const productionConfig = {
-    session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh',
+    session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh556677',
     cookie_max_age: 10 * 24 * 3600 * 1000,
     session_max_age: 10 * 24 * 3600,
 
-    db: 'mongodb://Ranch:yunfarm_000@master.mongodb.aliyun.yunfarm.net/Ranch',
+    db: 'mongodb://user:pass@master.mongodb.yunfarm.net/database',
 
     redis: {
         port: 6379,
-        host: 'redis.systemserver.aliyun.yunfarm.net',
-        auth_pass: 'xcfjliQeWP'
+        host: 'dada',
+        auth_pass: 'biabia'
     },
     wechat_store: {
-        appid: 'wx35548ff0c793bc98',
-        appsecret: '0b0e59db80aedcab7dea2e3e07601d59',
-        ACCESSTOKEN_KEY: 'store_weixin_accessToken',
-        JSAPITICKET_KEY: 'store_weixin_jsapiticket',
+        appid: 'biubiu',
+        appsecret: 'fuckyou',
+        ACCESSTOKEN_KEY: 'store_weixin_xxxx',
+        JSAPITICKET_KEY: 'store_weixin_ccccc',
         token: 'store'
     },
-    wechat_yunfarm: {
-        appid: 'wx3c0ae0c79b50218d',
-        appsecret: '5131601773ea5bb03fe216d500dd6bce',
-        ACCESSTOKEN_KEY: 'ranch_weixin_accessToken',
-        JSAPITICKET_KEY: 'ranch_weixin_jsapiticket',
-        token: 'Ranch'
-    },
     AliPushCfg: {
-        url: 'http://shop-core.webserver.aliyun.yunfarm.net:18080/msc_notify/api/notify',
-        appKey: '23372525'
+        url: 'iiii',
+        appKey: '23372525tt'
     },
     wxTemplate: {
         INVITE_FRIENDS_INVEST: 'OPENTM204658409',
@@ -41,7 +34,7 @@ const productionConfig = {
         LOTTERY_WIN_REWARD_INTEGRAL: 'OPENTM204658409'
     },
     logServer: {
-        host: 'log4js1.logserver.aliyun.yunfarm.net',
+        host: 'yyyyyyyyyy',
         port: 33333
     },
     logdir: './data/logs/' // 日志文件夹
@@ -49,62 +42,26 @@ const productionConfig = {
 
 // 测试环境
 const functionalConfig = {
-    db: 'mongodb://Ranch:yunfarm_000@101.201.197.163/Ranch1',
+    db: 'mongodb://user:pass@master.mongodb.yunfarm.net/database',
     redis: {
         port: 6379,
-        host: '101.201.197.163',
-        auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwO'
+        host: '101.201.197.445',
+        auth_pass: 'xxooxoxox'
     },
     AliPushCfg: {
-        url: 'http://101.201.197.163:18080/msc_notify/api/notify',
+        url: 'bibibbibbio',
         appKey: '23372525'
-    },
-    wechat_yunfarm: {
-        appid: 'wx3efe1b5c964c16c3',
-        appsecret: '9ef9c1bae9ebd899abeec6aea474b26f',
-        // appid: 'wx3c0ae0c79b50218d',
-        // appsecret: '5131601773ea5bb03fe216d500dd6bce',
-        ACCESSTOKEN_KEY: 'ranch_weixin_accessToken',
-        JSAPITICKET_KEY: 'ranch_weixin_jsapiticket',
-        token: 'Ranch'
-    },
-    logServer: {
-        host: '101.201.197.163',
-        port: 33333
     }
 };
 
 //  开发环境
 const devConfig = {
-    //db: 'mongodb://Ranch:yunfarm_000@101.201.197.163/Ranch1',
     db: 'mongodb://127.0.0.1/koa-test',
     redis: {
         port: 6379,
-        host: '127.0.0.1',
-        auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwO'
-    },
-    AliPushCfg: {
-        url: 'http://101.201.197.163:18080/msc_notify/api/notify',
-        appKey: '23372525'
-    },
-    wechat_yunfarm: {
-        appid: 'wx3efe1b5c964c16c3',
-        appsecret: '9ef9c1bae9ebd899abeec6aea474b26f',
-        // appid: 'wx3c0ae0c79b50218d',
-        // appsecret: '5131601773ea5bb03fe216d500dd6bce',
-        ACCESSTOKEN_KEY: 'ranch_weixin_accessToken',
-        JSAPITICKET_KEY: 'ranch_weixin_jsapiticket',
-        token: 'Ranch'
-    },
-    wxTemplate: {
-        INVITE_FRIENDS_INVEST: 'JBXXIpi3Hw58NY031B6g-na3Ye1RyM8Q_uXuPSaOgcc',
-        INVEST_SHEEP: 'JBXXIpi3Hw58NY031B6g-na3Ye1RyM8Q_uXuPSaOgcc',
-        UPGRADE: 'KPLEJsb1RSBSM3g9zd4qlAH00fZG3wIFIA86EpJOQbM	',
-        LOTTERY_WIN_REWARD_PHYSICAL: 'KEBfS7QL9Lk-3s_8qG1PhrxcpcU7-85qERTUxLGSjoQ',
-        LOTTERY_WIN_REWARD_INTEGRAL: 'JBXXIpi3Hw58NY031B6g-na3Ye1RyM8Q_uXuPSaOgcc'
+        host: '127.0.0.1'
     },
     logServer: {
-        // host: '101.201.197.163',
         host: '127.0.0.1',
         port: 33333
     },
@@ -113,32 +70,24 @@ const devConfig = {
 
 // 单元测试
 const testConfig = {
-    db: 'mongodb://admin:admin@101.201.197.163/Ranch-test',
+    db: 'mongodb://127.0.0.1/koa-test',
     redis: {
         port: 6379,
-        host: '101.201.197.163',
+        host: '127.0.0.1',
         auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwO'
     },
     logServer: {
-        host: '101.201.197.163',
+        host: '',
         port: 33333
-    },
-    wxTemplate: {
-        INVITE_FRIENDS_INVEST: 'JBXXIpi3Hw58NY031B6g-na3Ye1RyM8Q_uXuPSaOgcc',
-        INVEST_SHEEP: 'JBXXIpi3Hw58NY031B6g-na3Ye1RyM8Q_uXuPSaOgcc',
-        UPGRADE: 'KPLEJsb1RSBSM3g9zd4qlAH00fZG3wIFIA86EpJOQbM	',
-        LOTTERY_WIN_REWARD_PHYSICAL: 'KEBfS7QL9Lk-3s_8qG1PhrxcpcU7-85qERTUxLGSjoQ',
-        LOTTERY_WIN_REWARD_INTEGRAL: 'JBXXIpi3Hw58NY031B6g-na3Ye1RyM8Q_uXuPSaOgcc'
     },
     logdir: `${__dirname}/logs/`,
 };
 
 const preConfig = {
-    db: 'mongodb://Ranch:yunfarm_000@101.201.197.163/Ranch1',
+    db: 'mongodb://127.0.0.1/koa-test',
     redis: {
         port: 6379,
-        host: '101.201.197.163',
-        auth_pass: 'eGd3cEn38tYCQiDBzx7PTWwO'
+        host: '127.0.0.1'
     },
 };
 console.log('config env::', env);

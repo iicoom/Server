@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+mongoose.Promise = global.Promise;
 
 export function connectDatabase(url) {
 	console.log('Connecting to %s', url);
