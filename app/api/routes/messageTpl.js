@@ -51,8 +51,8 @@ export default (router) => {
               condition.type = ctx.request.query.type;
           }
           const opt = {
-              page: ctx.request.query.page || 1,
-              size: ctx.request.query.size || 10
+              page: parseInt(ctx.request.query.page) || 1,
+              size: parseInt(ctx.request.query.size) || 10
           };
           try {
               console.log(opt)
