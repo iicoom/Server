@@ -7,6 +7,7 @@ import ForbiddenError from '../util/Errors/ForbiddenError.js';
 import ServerError from '../util/Errors/ServerErrors.js';
 import constant from '../util/constant.js';
 import _ from 'lodash';
+
 const debug = require('debug')('app-auth');
 
 export async function needLogin(ctx, next) {
@@ -17,20 +18,20 @@ export async function needLogin(ctx, next) {
   throw new AuthError('请先登录');
 }
 
-export const needResFarm = (resFarmProp) => async (ctx, next) => {
-    const resFarmIdFn = () => {
-        let tmp = ctx;
-        const props =  resFarmProp.split('.');
-        for (const prop in props) {
-            tmp = tmp[props[prop]]
-        }
-        return tmp;
-    };
-    const result = __.find(ctx.session.userInfo.companies, { company_id: resFarmIdFn() });
-    if (!!result) {
-        return await next();
+export const needResFarm = resFarmProp => async (ctx, next) => {
+  const resFarmIdFn = () => {
+    let tmp = ctx;
+    const props =  resFarmProp.split('.');
+    for (const prop in props) {
+      tmp = tmp[props[prop]];
     }
-    throw new ForbiddenError('没有access参数');
+    return tmp;
+  };
+  const result = __.find(ctx.session.userInfo.companies, { company_id: resFarmIdFn() });
+  if (!!result) {
+    return await next();
+  }
+  throw new ForbiddenError('没有access参数');
 };
 
 export async function needAdmin(ctx, next) {
@@ -43,27 +44,27 @@ export async function needAdmin(ctx, next) {
   throw new ForbiddenError('权限不足');
 }
 
-//{yunfarm:[1],farm:[1]}
-export const needPlatFormAuth = (resPlatFormProp) => async (ctx, next) => {
-    const sessionUserInfo = ctx.session.userInfo;
-    let isPass = false;
-    _.map(resPlatFormProp, ( value, key)=>{
-        if(sessionUserInfo.platform_role){
-            const roleArr = _.intersection(sessionUserInfo.platform_role[key], value);
-            debug("====roleArr================");
-            debug(roleArr);
-            if(roleArr && roleArr.length > 0){
-                isPass = true ;
-            }
-        }else{
-            throw new ForbiddenError('权限不足');
-        }
-    });
-    if(isPass){
-        return await next();
-    }else{
-        throw new ForbiddenError('权限不足');
+// {yunfarm:[1],farm:[1]}
+export const needPlatFormAuth = resPlatFormProp => async (ctx, next) => {
+  const sessionUserInfo = ctx.session.userInfo;
+  let isPass = false;
+  _.map(resPlatFormProp, (value, key) => {
+    if (sessionUserInfo.platform_role) {
+      const roleArr = _.intersection(sessionUserInfo.platform_role[key], value);
+      debug('====roleArr================');
+      debug(roleArr);
+      if (roleArr && roleArr.length > 0) {
+        isPass = true;
+      }
+    } else {
+      throw new ForbiddenError('权限不足');
     }
+  });
+  if (isPass) {
+    return await next();
+  } else {
+    throw new ForbiddenError('权限不足');
+  }
 
 };
 
@@ -86,12 +87,12 @@ const needEqual = async (pfn1, pfn2) => {
   return false;
 };
 
-export const needResOwner = (resOwnerProp) => async (ctx, next) => {
+export const needResOwner = resOwnerProp => async (ctx, next) => {
   const resOwnerIdFn = () => {
     let tmp = ctx;
     const props =  resOwnerProp.split('.');
     for (const prop in props) {
-      tmp = tmp[props[prop]]
+      tmp = tmp[props[prop]];
     }
     return tmp;
   };
@@ -104,32 +105,32 @@ export const needResOwner = (resOwnerProp) => async (ctx, next) => {
   throw new ForbiddenError('没有access参数');
 };
 
-export const or = (auth1) => (auth2) => async (ctx, next) => {
+export const or = auth1 => auth2 => async (ctx, next) => {
   const localNext = async () => {
     return new Promise((resolve, reject) => {
-      resolve(true)
-    })
+      resolve(true);
+    });
   };
   let r1 = false;
   let r2 = false;
   try {
-    r1 = await auth1(ctx, localNext)
+    r1 = await auth1(ctx, localNext);
   } catch (e) {
-    r1 = false
+    r1 = false;
   }
   try {
-    r2 = await auth2(ctx, localNext)
+    r2 = await auth2(ctx, localNext);
   } catch (e) {
-    r2 = false
+    r2 = false;
   }
 
   if (r1 || r2) {
-    return await next()
+    return await next();
   }
-  throw new ForbiddenError('access被拒绝')
+  throw new ForbiddenError('access被拒绝');
 };
 
-export const and = (authRoles) => async (ctx, next) => {
+export const and = authRoles => async (ctx, next) => {
   let result = true;
   let error = null;
 
@@ -144,8 +145,8 @@ export const and = (authRoles) => async (ctx, next) => {
   if (__.isArray(authRoles)) {
     for (const authRole of authRoles) {
       await authRole(ctx, next)
-          .then(resultSuccess)
-          .catch(resultFailed);
+        .then(resultSuccess)
+        .catch(resultFailed);
     }
   } else {
     throw new ServerError();
