@@ -6,17 +6,13 @@ import crypto from 'crypto';
 import requestFn from 'request';
 import querystring from 'querystring';
 import objectid from 'objectid';
-import dateformat from 'dateformat';
 import _ from 'lodash';
-import ServerErrors from './Errors/ServerErrors';
+import dateformat from 'dateformat';
 
 const randomstring = require('randomstring');
 
 
 class Utility {
-  constructor(args) {
-    // code
-  }
 
   /** **********************************************************
         参数校验
@@ -424,6 +420,61 @@ class Utility {
       return `${_.take(str, begin).join('')}${_.repeat('*', count)}${_.takeRight(str, tail).join('')}`;
     }
     return null;
+  }
+
+
+  /** **********************************************************
+   时间处理
+ ***************************** */
+  /**
+   * 获取现在时间
+   * @returns {number|*}
+   */
+  static getNowTime() {
+    const now = new Date();
+    return now.getTime();
+  }
+
+
+  /** **********************************************************
+   生成随机编号
+ ***************************** */
+  static generateRandom(n, collection) {
+    let res = '';
+    for (let i = 0; i < n; i++) {
+      const id = Math.ceil(Math.random() * (collection.length - 1));
+      res += collection[id];
+    }
+    return res;
+  }
+
+  static generateUUID() {
+    return exports.generateRandom(31,
+      exports.Collection_Num.concat(exports.Collection_Alpha));
+  }
+  /**
+   * 生成订单编号
+   *
+   * @static
+   * @memberof Utility
+   */
+  static generateOrderCode() {
+    const time = dateformat(this.getNowTime(), 'yyyymmddHHMMss');
+    const randNumber = this.generateRandom(3, Collection_Num);
+    return `${time}${randNumber}`;
+  }
+
+  /**
+   * 生成序列号
+   *
+   * @static
+   * @returns
+   * @memberof Utility
+   */
+  static generateSerNum() {
+    const time = dateformat(this.getNowTime(), 'yyyymmddHHMMss');
+    const randomNum = randomstring.generate({ length: 12, charset: 'numeric' });
+    return `${time}2${randomNum}`;
   }
 }
 

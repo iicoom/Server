@@ -1,7 +1,6 @@
 /**
- * Created by bjcwq on 16/6/14.
+ * Created by Mr.mao on 16/6/14.
  */
-import BaseError from './BaseError';
 
 class ServerError extends Error {
   constructor(message, status = 500) {
