@@ -84,10 +84,11 @@ class Utility {
    * @memberof Utility
    */
   static isTimestamp(value) {
-    if (typeof value !== 'number') {
-      return false;
-    }
-    return true;
+    // if (typeof value !== 'number') {
+    //   return false;
+    // }
+    // return true;
+    return typeof value === 'number';
   }
 
   /**
@@ -141,10 +142,11 @@ class Utility {
     if (value === 0) {
       return true;
     }
-    if (value) {
-      return true;
-    }
-    return false;
+    // if (value) {
+    //   return true;
+    // }
+    // return false;
+    return !!value;
   }
 
   /**
@@ -206,6 +208,119 @@ class Utility {
     return Object.values(obj).includes(value);
   };
 
+  // 检查邮箱
+  static testEmail(email) {
+    const reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+    return reg.test(email);
+  }
+
+  /**
+   * 身份证号码验证
+   *
+   * @param cardNo
+   *            {String} 证件号码
+   * @returns info {Object} 身份证信息.
+   *
+   */
+  static getIdCardInfo(cardNo) {
+    const info = {
+      isTrue: false, // 身份证号是否有效。默认为 false
+      year: null, // 出生年。默认为null
+      month: null, // 出生月。默认为null
+      day: null, // 出生日。默认为null
+      isMale: false, // 是否为男性。默认false
+      isFemale: false, // 是否为女性。默认false
+    };
+
+    if (!cardNo && cardNo.length !== 15 && cardNo.length !== 18) {
+      info.isTrue = false;
+      return info;
+    }
+
+    if (cardNo.length === 15) {
+      const year = cardNo.substring(6, 8);
+      const month = cardNo.substring(8, 10);
+      const day = cardNo.substring(10, 12);
+      const p = cardNo.substring(14, 15); // 性别位
+      const birthday = new Date(year,
+        parseFloat(month) - 1,
+        parseFloat(day), 12, 0, 0, 0);
+
+      // 对于老身份证中的年龄则不需考虑千年虫问题而使用getYear()方法
+      if (birthday.getYear() !== parseFloat(year) ||
+      birthday.getMonth() !== parseFloat(month) - 1 ||
+      birthday.getDate() !== parseFloat(day)) {
+        info.isTrue = false;
+      } else {
+        info.isTrue = true;
+        info.year = birthday.getFullYear();
+        info.month = birthday.getMonth() + 1;
+        info.day = birthday.getDate();
+        if (p % 2 === 0) {
+          info.isFemale = true;
+          info.isMale = false;
+        } else {
+          info.isFemale = false;
+          info.isMale = true;
+        }
+      }
+      return info;
+    }
+
+    if (cardNo.length === 18) {
+      const year = cardNo.substring(6, 10);
+      const month = cardNo.substring(10, 12);
+      const day = cardNo.substring(12, 14);
+      const p = cardNo.substring(14, 17);
+      const birthday = new Date(year,
+        parseFloat(month) - 1,
+        parseFloat(day), 12, 0, 0, 0);
+
+      // 这里用getFullYear()获取年份，避免千年虫问题
+      if (birthday.getFullYear() !== parseFloat(year) ||
+      birthday.getMonth() !== parseFloat(month) - 1 ||
+      birthday.getDate() !== parseFloat(day)) {
+        info.isTrue = false;
+        return info;
+      }
+
+      const Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1]; // 加权因子
+      const Y = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2]; // 身份证验证位值.10代表X
+
+      // 验证校验位
+      let sum = 0; // 声明加权求和变量
+      const _cardNo = cardNo.split('');
+
+      if (_cardNo[17].toLowerCase() === 'x') {
+        _cardNo[17] = 10; // 将最后位为x的验证码替换为10方便后续操作
+      }
+      for (let i = 0; i < 17; i++) {
+        sum += Wi[i] * _cardNo[i]; // 加权求和
+      }
+      const i = sum % 11; // 得到验证码所位置
+
+      if (_cardNo[17] !== Y[i]) {
+        info.isTrue = false;
+        return info;
+      }
+
+      info.isTrue = true;
+      info.year = birthday.getFullYear();
+      info.month = birthday.getMonth() + 1;
+      info.day = birthday.getDate();
+
+      if (p % 2 === 0) {
+        info.isFemale = true;
+        info.isMale = false;
+      } else {
+        info.isFemale = false;
+        info.isMale = true;
+      }
+      return info;
+    }
+    return info;
+  }
+
 
   /** **********************************************************
         字符串处理
@@ -248,6 +363,10 @@ class Utility {
       return value.replace(/(^\s*)/g, '');
     }
     return '';
+  }
+
+  static isApp(ua) {
+    return ua && ua.indexOf('YunFarm') !== -1;
   }
 
 
@@ -449,8 +568,9 @@ class Utility {
   }
 
   static generateUUID() {
+    const Collection_Alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     return exports.generateRandom(31,
-      exports.Collection_Num.concat(exports.Collection_Alpha));
+      exports.Collection_Num.concat(Collection_Alpha));
   }
   /**
    * 生成订单编号
@@ -459,6 +579,7 @@ class Utility {
    * @memberof Utility
    */
   static generateOrderCode() {
+    const Collection_Num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     const time = dateformat(this.getNowTime(), 'yyyymmddHHMMss');
     const randNumber = this.generateRandom(3, Collection_Num);
     return `${time}${randNumber}`;
