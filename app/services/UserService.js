@@ -2,12 +2,12 @@
  * Created by bjcwq on 16/8/1.
  */
 import _ from 'lodash';
+import randomstring from 'randomstring';
 import User from '../models/user';
 import AccountService from './AccountService.js';
 import ServerError from '../util/Errors/ServerErrors.js';
 import ClientError from '../util/Errors/ClientErrors.js';
-import { digest, sha256 } from '../util/utils.js';
-import randomstring from 'randomstring';
+import Utility from '../util/utils.js';
 
 import log from '../util/log';
 
@@ -34,6 +34,24 @@ const getWeixinUserInfo = async (user) => {
     return wechatUserInfo ? wechatUserInfo.toObject() : null;
   }
   return null;
+};
+
+/**
+ * 创建用户
+ * @param userInfo
+ * @returns {Promise.<null>}
+ */
+export const createUser = async (userInfo) => {
+  userInfo.salt = randomstring.generate(24);
+  userInfo.password = Utility.sha256(userInfo.password + userInfo.salt);
+  console.log('wosljfaslkdfsd')
+  try {
+    console.log(userInfo);
+    const user = await User.create(userInfo);
+    return user ? user.toObject() : null;
+  } catch (e) {
+    throw new ServerError(e.toString());
+  }
 };
 
 /**
@@ -81,6 +99,19 @@ export async function getUserById(userId) {
     throw new ServerError(e.toString());
   }
 }
+
+export const getUser = async (condition) => {
+  try {
+    const user = await User.find({ condition });
+    console.log(user)
+    if (user && user.length !== 0) {
+      return (user ? user.toJSON() : null);
+    }
+    return null;
+  } catch (e) {
+    throw new ServerError(e.toString());
+  }
+};
 
 export const getUserByMobile = async (mobile) => {
   try {

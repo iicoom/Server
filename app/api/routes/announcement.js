@@ -14,7 +14,7 @@ const ParamError = (ctx) => {
 export default (router) => {
   router
   // 创建公告
-    .post('/announcement', needAdmin, async (ctx) => {
+    .post('/announcement', async (ctx) => {
       const anInfo = {
         title: ctx.checkBody('title').notEmpty('标题不能为空！').trim().value,
         type: ctx.checkBody('type').notEmpty('类型不能为空！').trim().value,
@@ -22,13 +22,14 @@ export default (router) => {
         end_time: ctx.checkBody('end_time').notEmpty('结束时间不能为空！').trim().value,
         full_content: ctx.checkBody('full_content').notEmpty('内容不能为空！').trim().value,
         abstract: ctx.checkBody('abstract').notEmpty('摘要不能为空！').trim().value,
-        link_name: ctx.checkBody('link_name').notEmpty('链接名字不能为空！').trim().value,
-        link_addr: ctx.checkBody('link_addr').notEmpty('链接地址不能为空！').trim().value,
-        link_is_show: ctx.checkBody('link_is_show').notEmpty('链接状态不能为空！').trim().value,
+        // link_name: ctx.checkBody('link_name').notEmpty('链接名字不能为空！').trim().value,
+        // link_addr: ctx.checkBody('link_addr').notEmpty('链接地址不能为空！').trim().value,
+        // link_is_show: ctx.checkBody('link_is_show').notEmpty('链接状态不能为空！').trim().value,
         state: ctx.checkBody('state').notEmpty('公告状态不能为空！').trim().value,
       };
       if (ctx.errors && ctx.errors.length > 0) {
         ParamError(ctx);
+        return;
       }
       if (anInfo.start_time > anInfo.end_time) {
         throw new ClientError('结束时间必须大于开始时间');
@@ -37,18 +38,18 @@ export default (router) => {
       ctx.body = await AnnouncementService.create(anInfo);
     })
   // 获取公告列表
-    .get('/announcement', needLogin, async (ctx) => {
+    .get('/announcement', async (ctx) => {
       const condition = {};
-      if (ctx.session.userInfo.role_type === constant.RoleType.User) {
-        condition.state = 'publish';
-      } else if (ctx.session.userInfo.role_type === constant.RoleType.Administor) {
-        const { title, end_time, start_time, state, type } = ctx.query;
-        title && (condition.title = { $regex: title });
-        start_time && (condition.end_time = { $gt: start_time });
-        end_time && (condition.start_time = { $lt: end_time });
-        state && (condition.state = state);
-        type && (condition.type = type);
-      }
+      // if (ctx.session.userInfo.role_type === constant.RoleType.User) {
+      //   condition.state = 'publish';
+      // } else if (ctx.session.userInfo.role_type === constant.RoleType.Administor) {
+      //   const { title, end_time, start_time, state, type } = ctx.query;
+      //   title && (condition.title = { $regex: title });
+      //   start_time && (condition.end_time = { $gt: start_time });
+      //   end_time && (condition.start_time = { $lt: end_time });
+      //   state && (condition.state = state);
+      //   type && (condition.type = type);
+      // }
       const opt = {
         sort: { create_time: -1 },
         limit: ctx.query.size || 15,

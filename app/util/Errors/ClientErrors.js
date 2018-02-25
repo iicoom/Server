@@ -59,12 +59,12 @@ class ClientError {
     if (!this.errors) {
       this.errors = [];
     }
-      const e = {};
-      if (error instanceof CustomError) {
-          e[error.filed || error.resource] = error.message;
-      } else {
-          e[error.filed || error.resource] = `${error.resource || ''} ${error.code || ''} by ${error.filed || ''}.`;
-      }
+    const e = {};
+    if (error instanceof CustomError) {
+      e[error.filed || error.resource] = error.message;
+    } else {
+      e[error.filed || error.resource] = `${error.resource || ''} ${error.code || ''} by ${error.filed || ''}.`;
+    }
 
     this.errors.push(e);
   }

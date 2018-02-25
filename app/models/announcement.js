@@ -6,8 +6,8 @@ const { Schema } = mongoose;
 const announcement = new Schema({
   title: { type: String, comment: '标题' },
   type: { type: String, comment: '类型' },
-  start_time: { type: Number, comment: '开始时间' },
-  end_time: { type: Number, comment: '结束时间' },
+  start_time: { type: Date, comment: '开始时间' },
+  end_time: { type: Date, comment: '结束时间' },
   full_content: { type: String, comment: '公告内容' },
   abstract: { type: String, comment: '摘要内容' },
   link_name: { type: String, comment: '链接名称' },

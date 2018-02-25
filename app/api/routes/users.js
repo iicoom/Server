@@ -167,7 +167,7 @@ export default (router) => {
       const updateInfo = {
         username: ctx.checkBody('username').notEmpty().trim().value, // 用户名
         mobile: ctx.checkBody('mobile').notEmpty().isMobilePhone(ErrorCode.MOBILE_FORMAT_ERROR, 'zh-CN').trim().value, // 手机号
-	              platformRole: ctx.checkBody('platformRole').notEmpty(),
+        platformRole: ctx.checkBody('platformRole').notEmpty(),
       };
       if (ctx.errors && ctx.errors.length) {
         ctx.status = 400;
@@ -193,7 +193,7 @@ export default (router) => {
           }
         } else {
           updateInfo.platform_role = platformRole;
-	                  const conditons = { mobile };
+          const conditons = { mobile };
           const result = await updateUser(conditons, updateInfo);
           ctx.body = result;
         }
@@ -202,18 +202,18 @@ export default (router) => {
       }
     })
   // 管理平台删除用户平台角色
-	      .delete('/users/platform/:id', needLogin, needAdmin, async (ctx) => {
-		      const id = ctx.params.id;
-	      	if (id) {
-			        const updateInfo = { delplatformrole: true };
-			        const conditons = { _id: id };
+    .delete('/users/platform/:id', needLogin, needAdmin, async (ctx) => {
+      const id = ctx.params.id;
+      if (id) {
+          const updateInfo = { delplatformrole: true };
+          const conditons = { _id: id };
 
-			        const result = await updateUser(conditons, updateInfo);
-			        ctx.body = result;
-		        } else {
-			        ctx.body = 'id不能为空！';
-		        }
-	      })
+          const result = await updateUser(conditons, updateInfo);
+          ctx.body = result;
+        } else {
+          ctx.body = 'id不能为空！';
+        }
+    })
   // 管理平台冻结用户
     .put('/users/loginlimit/:id', needLogin, needAdmin, async (ctx) => {
       const id = ctx.params.id;

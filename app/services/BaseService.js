@@ -1,3 +1,4 @@
+import ServerError from '../util/Errors/ServerErrors';
 /**
  * 封装model里面一些基础方法。
  *
@@ -187,7 +188,8 @@ export default class BaseService {
       return result ? result.toJSON() : null;
     } catch (ex) {
       console.log(ex.message);
-      Utility.throwServerError({ msg: `添加表记录失败原因:${ex.message}` });
+      throw new ServerError(ex);
+      // Utility.throwServerError({ msg: `添加表记录失败原因:${ex.message}` });
     }
   }
 

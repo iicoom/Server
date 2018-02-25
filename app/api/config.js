@@ -1,1 +1,1 @@
-export const prefix = '/message/api';
+export const prefix = '/api';
