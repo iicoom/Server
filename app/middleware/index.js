@@ -12,28 +12,28 @@ import redisClient from '../services/redis';
 
 
 export default function middleware() {
-    return compose([
-        convert(accessLogger()),
-        convert(helmet()), // reset HTTP headers (e.g. remove x-powered-by)
-        convert(cors({
-            origin: (request) => {
-                const origin = request.get('Origin');
-                if (origin && (/(\.yunfarm\.cn)($|:[0-9]*$)/.test(origin)
+  return compose([
+    convert(accessLogger()),
+    convert(helmet()), // reset HTTP headers (e.g. remove x-powered-by)
+    convert(cors({
+      origin: (request) => {
+        const origin = request.get('Origin');
+        if (origin && (/(\.yunfarm\.cn)($|:[0-9]*$)/.test(origin)
                     || (/(localhost)($|:[0-9]*$)/.test(origin))
                     || (/(127\.0\.0\.1)($|:[0-9]*$)/.test(origin)))) {
-                    return origin;
-                }
-                return 'https://m.yunfarm.cn';
-            }
-        })),
-        convert(bodyParser()),
-        accessToken({
-            name: 'token',
-            secret: config.session_secret
-        }),
-        convert(session({
-            prefix: 'sid:',
-            store: redisStore({ client: redisClient })
-        }))
-    ]);
+          return origin;
+        }
+        return 'https://m.yunfarm.cn';
+      },
+    })),
+    convert(bodyParser()),
+    accessToken({
+      name: 'token',
+      secret: config.session_secret,
+    }),
+    convert(session({
+      prefix: 'sid:',
+      store: redisStore({ client: redisClient }),
+    })),
+  ]);
 }

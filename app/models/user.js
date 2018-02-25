@@ -46,14 +46,20 @@ const UserSchema = new mongoose.Schema({
     createdAt: 'create_at',
     updatedAt: 'update_at',
   },
-  toJSON: {
-    virtuals: true,
-    transform(doc, ret) {
-      delete ret.__v;
-      delete ret._id;
-      return ret;
-    },
-  },
+  // toJSON: {
+  //   virtuals: true,
+  //   transform(doc, ret) {
+  //     delete ret.pay_pwd;
+  //     delete ret.history;
+  //     delete ret.password;
+  //     delete ret.wxopenid;
+  //     delete ret.salt;
+  //     delete ret._id;
+  //     delete ret.__v;
+  //     delete ret.idcard;
+  //     return ret;
+  //   },
+  // },
 });
 
 // 数据存储前的逻辑

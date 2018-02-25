@@ -48,7 +48,7 @@ export const createUser = async (userInfo) => {
   try {
     console.log(userInfo);
     const user = await User.create(userInfo);
-    return user ? user.toObject() : null;
+    return user ? user.toJSON() : null;
   } catch (e) {
     throw new ServerError(e.toString());
   }
@@ -102,10 +102,9 @@ export async function getUserById(userId) {
 
 export const getUser = async (condition) => {
   try {
-    const user = await User.find({ condition });
-    console.log(user)
-    if (user && user.length !== 0) {
-      return (user ? user.toJSON() : null);
+    const user = await User.findOne(condition);
+    if (user) {
+      return user.toJSON();
     }
     return null;
   } catch (e) {
@@ -161,7 +160,7 @@ export async function checkPasswordWithId(userId, password) {
         throw new ClientError('账户冻结，请10分钟后再试！');
       }
 
-      const passwordHash = sha256(password + user.salt);
+      const passwordHash = Utility.sha256(password + user.salt);
       result = user.password === passwordHash;
 
       if (!result) {
