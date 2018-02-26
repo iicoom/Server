@@ -5,8 +5,8 @@ const env = process.env.NODE_ENV;
 
 const productionConfig = {
   session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh556677',
-  cookie_max_age: 10 * 24 * 3600 * 1000,
-  session_max_age: 10 * 24 * 3600,
+  cookie_max_age: 10 * 24 * 3600 * 1000, // 864000000ms
+  session_max_age: 10 * 24 * 3600, // 864000s => 10天
 
   db: 'mongodb://user:pass@master.mongodb.yunfarm.net/database',
 
