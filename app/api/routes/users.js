@@ -1,6 +1,6 @@
 import UserService, { createUserWithMobile, getUserByMobile,
   getUserById, updateUserInfoById, checkPasswordWithId, updatePasswordById, getUsers,
-  addUserWithMobile, updateUser, fetchPlatformUsers, filterPlatformUsers, getUsersByMobile } from '../../services/UserService';
+  addUserWithMobile, updateUser, fetchPlatformUsers, filterPlatformUsers, getUsersByMobile, deleteUserToken } from '../../services/UserService';
 import User from '../../models/user';
 import ClientError from '../../util/Errors/ClientErrors';
 import ErrorCode from '../../util/Errors/ErrorCode';
@@ -203,20 +203,20 @@ export default (router) => {
     })
   // 管理平台删除用户平台角色
     .delete('/users/platform/:id', needLogin, needAdmin, async (ctx) => {
-      const id = ctx.params.id;
+      const { id } = ctx.params;
       if (id) {
-          const updateInfo = { delplatformrole: true };
-          const conditons = { _id: id };
+        const updateInfo = { delplatformrole: true };
+        const conditons = { _id: id };
 
-          const result = await updateUser(conditons, updateInfo);
-          ctx.body = result;
-        } else {
-          ctx.body = 'id不能为空！';
-        }
+        const result = await updateUser(conditons, updateInfo);
+        ctx.body = result;
+      } else {
+        ctx.body = 'id不能为空！';
+      }
     })
   // 管理平台冻结用户
     .put('/users/loginlimit/:id', needLogin, needAdmin, async (ctx) => {
-      const id = ctx.params.id;
+      const { id } = ctx.params;
 
       if (id) {
         const userInfo = await getUserById(id);
@@ -226,13 +226,13 @@ export default (router) => {
         }
         if (userInfo && !userInfo.disabled) {
           const updateInfo = { disabled: true };
-	                  const conditons = { _id: id };
+          const conditons = { _id: id };
           const result = await updateUser(conditons, updateInfo);
-	                  console.log(result);
+          console.log(result);
           ctx.body = result;
         } else if (userInfo.disabled === true) {
           const updateInfo = { disabled: false };
-	                  const conditons = { _id: id };
+          const conditons = { _id: id };
           const result = await updateUser(conditons, updateInfo);
           ctx.body = result;
         }
@@ -240,7 +240,7 @@ export default (router) => {
     })
   // 管理平台重置用户密码
     .put('/users/password/reset/:id', needLogin, needAdmin, async (ctx) => {
-      const id = ctx.params.id;
+      const { id } = ctx.params;
       const rePassword = ctx.checkBody('re_password').notEmpty().trim().len(6).value; // 新密码
       if (ctx.errors && ctx.errors.length) {
         ctx.status = 400;

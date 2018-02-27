@@ -1,29 +1,29 @@
 /**
  * Created by bj on 16/8/2.
  */
-import UserService, { getUser, getUserByMobile, checkPasswordWithId, createUser, createUserWithMobile, createUserWithUnionId, getUserByUnionId, updateWechatUserInfo, addOpenid, getUserById, initWalletAccount } from '../../services/UserService';
+import { getUser, getUserByMobile, updateUserByName, checkPasswordWithId, createUser, createUserWithMobile, createUserWithUnionId, getUserByUnionId, updateWechatUserInfo, addOpenid, getUserById, initWalletAccount } from '../../services/UserService';
 import ClientError from '../../util/Errors/ClientErrors.js';
 import ForbiddenError from '../../util/Errors/ForbiddenError.js';
 import ErrorCode from '../../util/Errors/ErrorCode.js';
 import config from '../../../config';
 import constant from '../../util/constant';
 import Utility from '../../util/utils';
+import { send, mailInfo } from '../../util/email';
 
 const { USER_FLAG } = constant;
 
 export default (router) => {
   router
     // 注册
-    .post('/signup', async (ctx) => {
-      const { username, password, confirm_password, mobile, captcha } = ctx.request.body;
+    .post('/register', async (ctx) => {
+      const { username, password, confirm, mobile, captcha } = ctx.request.body;
       const userInfo = {};
       ctx.checkBody('username').notEmpty(ctx.i18n.__(ErrorCode.PASSWORD_NOT_EMPTY));
       ctx.checkBody('password').notEmpty(ctx.i18n.__(ErrorCode.PASSWORD_NOT_EMPTY));
-      ctx.checkBody('confirm_password').notEmpty(ctx.i18n.__(ErrorCode.CONFIRM_PASSWORD_NOT_EMPTY)).eq(password, ctx.i18n.__(ErrorCode.TWO_PASSWORD_NOT_CONSISTENT));
+      ctx.checkBody('confirm').notEmpty(ctx.i18n.__(ErrorCode.CONFIRM_PASSWORD_NOT_EMPTY)).eq(password, ctx.i18n.__(ErrorCode.TWO_PASSWORD_NOT_CONSISTENT));
       if (username && password) {
         userInfo.username = username;
         userInfo.password = password;
-
       } else if (mobile && captcha) {
         userInfo.mobile = ctx.checkBody('mobile').isMobilePhone(ctx.i18n.__(ErrorCode.MOBILE_FORMAT_ERROR), 'zh-CN');
         ctx.checkBody('captcha').notEmpty(ctx.i18n.__(ErrorCode.PASSWORD_NOT_EMPTY));
@@ -40,15 +40,28 @@ export default (router) => {
       const condition = {};
       username && (condition.username = username);
       mobile && (condition.mobile = mobile);
-      console.log(condition)
       const user = await getUser(condition);
-      console.log(user)
       if (user == null) {
+        send(mailInfo(username));
         const result = await createUser(userInfo);
         ctx.body = result;
       } else {
         const error = new ClientError(ctx.i18n.__(ErrorCode.ACCOUNT_ALREADY_EXIST));
         ctx.body = error;
+      }
+    })
+    .get('/emailVerify', async (ctx) => {
+      const username = ctx.query.username;
+      const code = ctx.query.code;
+      const outdate = ctx.query.outdate;
+      // 校验code，最好再校验失效时间...
+      console.log(username)
+      const user = await getUser({ username });
+      if (user) {
+        await updateUserByName(username, { is_activate: true });
+        ctx.body = '您的账户激活成功';
+      } else {
+        ctx.body = '该用户不存在，激活失败';
       }
     })
     // 登录
