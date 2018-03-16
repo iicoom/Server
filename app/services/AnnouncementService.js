@@ -1,10 +1,10 @@
-import announcement from '../models/announcement';
+import Announcement from '../models/announcement';
 import BaseService from './BaseService';
 
 class AnnouncementService extends BaseService {
 
   constructor() {
-    super(announcement);
+    super(Announcement);
   }
 }
 

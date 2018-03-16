@@ -70,6 +70,7 @@ const devConfig = {
     port: 6379,
     host: '127.0.0.1',
   },
+
   logServer: {
     host: '127.0.0.1',
     port: 33333,
@@ -83,6 +84,7 @@ const devConfig = {
       // auth_pass: "xcfjliWP"
     },
   },
+  queueDB: 5,
   logdir: `${__dirname}/logs/`,
 };
 

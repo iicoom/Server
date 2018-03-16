@@ -13,7 +13,7 @@ const { USER_FLAG } = constant;
 
 export default (router) => {
   router
-    .param('id', async (id, ctx, next) => {
+    .param('/id', async (id, ctx, next) => {
       const userInfo = await getUserById(id);
       if (userInfo) {
         global.user = userInfo;

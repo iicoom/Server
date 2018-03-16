@@ -6,12 +6,12 @@ import { prefix } from './config';
 const routes = importDir('./routes');
 
 export default function api() {
-    const router = new Router({ prefix });
+  const router = new Router({ prefix });
 
-    Object.keys(routes).forEach(name => routes[name](router));
+  Object.keys(routes).forEach(name => routes[name](router));
 
-    return compose([
-        router.routes(),
-        router.allowedMethods(),
-    ]);
+  return compose([
+    router.routes(),
+    router.allowedMethods(),
+  ]);
 }
