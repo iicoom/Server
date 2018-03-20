@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import config from './config';
-
+import tasksConsumeService from './app/services/tasksConsumeService';
+// const sysMsgService = require('./service/system_msg');
 const { MsgClient, MsgCode } = require('msg_client');
 const { hgetall } = require('./app/services/redis');
 const { OrderService } = require('./app/services');
-// const sysMsgService = require('./service/system_msg');
-// const tasksConsumeService = require('./service/tasksConsume');
+
 const msgClient = new MsgClient(config.msgConfig);
 
 const kue = require('kue');
@@ -63,7 +63,8 @@ queue.process('order', (job, done) => {
     if (order && !_.isEmpty(order.order_code)) {
       // logger.debug('order: create order message with order code: ', order.order_code);
       msgClient.sendMessage(MsgCode.ranchCreateOrder, { orderCode: order.order_code }, [order.user_id]);
-
+      // 将购买羊只信息放入队列中
+      await tasksConsumeService.sendData('buySheep', { orderId: order._id.toString() });
     }
   })();
 
@@ -74,43 +75,5 @@ async function autoCreateOrder(data) {
   console.log(data);
   const result = await OrderService.create(data);
   return result;
-}
-
-
-function createOrder(orderInfo, cb) {
-  q.nfcall(orderService.createOrder, orderInfo.batch_id, orderInfo.user_id, orderInfo.sheep_num, orderInfo.presentInfo, orderInfo.from)
-    .then((order) => {
-      console.log('0-1');
-      logger.debug('source: user create order [use system message service send] \n', orderInfo);
-      logger.debug('result: user create order [use system message service send] \n', order);
-
-      if (order && !_.isEmpty(order.order_code)) {
-        logger.debug('order: create order message with order code: ', order.order_code);
-        // sysMsgService.sendCOrderSucMsg(orderInfo.user_id, order.order_code);
-        msgClient.sendMessage(MsgCode.ranchCreateOrder, { orderCode: order.order_code }, [orderInfo.user_id]);
-      } else {
-        logger.debug('source: create order message without order code: ', order.order_code);
-        // sysMsgService.sendCOrderSucMsg(orderInfo.user_id, null);
-        msgClient.sendMessage(MsgCode.ranchCreateOrder, { orderCode: null }, [orderInfo.user_id]);
-      }
-
-      // 如果创建的订单状态是已支付 发放羊只 发送购羊信息到队列中
-      logger.info('order state', order.state);
-      if (order.state === OrderState.Payed) {
-        const order_id = order._id.toString();
-        // 将购买羊只信息放入队列中
-        tasksConsumeService.sendData('buySheep', { orderId: order_id });
-        // 发送付款成功消息
-        sysMsgService.sendPaySucMsg(order_id, null);
-        // 创建虚拟羊只
-        orderService.onOrderPayed(order_id, null);
-      }
-
-      return order;
-    })
-    .then((order) => {
-      cb(null, order);
-    })
-    .catch(cb);
 }
 
