@@ -9,3 +9,12 @@ class OrderService extends BaseService {
 }
 
 export default OrderService;
+
+// export async function createOrder(orderInfo) {
+//   try {
+//     const result = await Order.create(orderInfo);
+//     return result;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }

@@ -183,6 +183,7 @@ export default class BaseService {
    */
   async create(fields) {
     try {
+      // console.log(this.model)
       const result = await this.model.create(fields);
       console.log(`-add record---${this.TableName}------`);
       return result ? result.toJSON() : null;

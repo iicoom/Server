@@ -1,6 +1,7 @@
 import ClientError from '../../util/Errors/ClientErrors';
 import config from '../../../config';
 import ErrorCode from '../../util/Errors/ErrorCode';
+import Utility from '../../util/utils';
 
 
 const kue = require('kue');
@@ -43,6 +44,7 @@ export default (router) => {
           const job = queue.create('order', {
             user_id: uid,
             sheep_num: num,
+            order_code: Utility.generateOrderCode(),
           }).attempts(3).backoff(true)
             .save((err) => {
               if (!err) {
