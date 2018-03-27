@@ -1,8 +1,6 @@
 /**
  * Created by mxj on 2017/8/2.
  */
-
-
 import Koa from 'koa';
 import koaValidate from 'koa-validate';
 import locale from 'koa-locale';
