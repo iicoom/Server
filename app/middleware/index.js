@@ -8,7 +8,7 @@ import redisStore from 'koa-redis';
 import accessToken from './accessToken';
 import accessLogger from './accessLogger';
 import config from '../../config';
-import redisClient from '../services/redis';
+import { redisClient } from '../services/redis';
 
 
 export default function middleware() {

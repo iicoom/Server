@@ -11,7 +11,7 @@ import Utility from '../util/utils.js';
 
 import log from '../util/log';
 
-import rc from './redis.js';
+import { rc } from './redis.js';
 
 const logger = log.getLogger('user');
 logger.setLevel('INFO');
@@ -143,11 +143,11 @@ export async function checkPasswordWithId(userId, password) {
       if (user.unsubscribe) {
         throw new ClientError('账户已被删除');
       }
-
+      // 检查有没有被记录限制时间
       const limitTime =  await rc.getAsync(`${user.mobile}-login-limit`);
       const now = _.now();
       if (limitTime) {
-        const m = Math.ceil(((10 * 60 * 1000 + parseInt(limitTime)) - now) / (60 * 1000));
+        const m = Math.ceil(((10 * 60 * 1000 + parseInt(limitTime, 10)) - now) / (60 * 1000));
         throw new ClientError(`账户冻结，请${m}分钟后再试！`);
       }
       const failCount = parseInt(await rc.getAsync(`${user.mobile}-login-fail`), 10);

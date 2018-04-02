@@ -1,12 +1,15 @@
 // https://github.com/NodeRedis/node_redis
 import redis from 'redis';
 import bluebird from 'bluebird';
-// import config from '../../config';
 
 const config = {
   db: 'mongodb://127.0.0.1/koa-test',
   redis: {
     db: 5,
+    port: 6379,
+    host: '127.0.0.1',
+  },
+  session: {
     port: 6379,
     host: '127.0.0.1',
   },
@@ -36,6 +39,7 @@ function createRedisClient(opt) {
 
 
 export const rc = createRedisClient(config.redis);
+export const redisClient = createRedisClient(config.session);
 
 export const get = function (key, cb) {
   if (!cb) cb = noop;

@@ -6,11 +6,10 @@ import ClientError from '../../util/Errors/ClientErrors.js';
 import ForbiddenError from '../../util/Errors/ForbiddenError.js';
 import ErrorCode from '../../util/Errors/ErrorCode.js';
 import config from '../../../config';
-import constant from '../../util/constant';
 import Utility from '../../util/utils';
 import { send, mailInfo } from '../../util/email';
+import { setUserTokens, removeUserTokens } from '../../middleware/user_tokens';
 
-const { USER_FLAG } = constant;
 
 export default (router) => {
   router
@@ -65,11 +64,11 @@ export default (router) => {
       }
     })
     // 登录
-    .post('/login', async (ctx) => {
+    .post('/login', setUserTokens, async (ctx) => {
       const { username, password, mobile, captcha } = ctx.request.body;
-
       ctx.session.ip = Utility.getClientIp(ctx.request);
       ctx.session['user-agent'] = ctx.request.header['user-agent'];
+
 
       // 参数检验
       // ctx.checkBody('mobile').isMobilePhone(ctx.i18n.__(ErrorCode.MOBILE_FORMAT_ERROR), 'zh-CN');
@@ -96,10 +95,11 @@ export default (router) => {
             throw new ClientError(ctx.i18n.__(ErrorCode.INVALID_USER_NAME_PASSWORD));
           } else {
             const result = userInfo;
-            result.flage = result.is_real_name ? USER_FLAG.sinaNormal : USER_FLAG.normal;
+            // result.flage = result.is_real_name ? USER_FLAG.sinaNormal : USER_FLAG.normal;
             result.token = ctx.sessionId;
             result.expire = config.cookie_max_age;
             ctx.session.userInfo = result;
+
             ctx.body = result;
           }
         } else {

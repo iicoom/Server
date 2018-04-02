@@ -85,6 +85,8 @@ const devConfig = {
     },
   },
   queueDB: 5,
+  cookie_max_age: 10 * 24 * 3600 * 1000, // 864000000ms
+  session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh556677',
   logdir: `${__dirname}/logs/`,
 };
 
