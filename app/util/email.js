@@ -23,12 +23,24 @@ const transporter = nodemailer.createTransport(config);
 //   });
 // };
 
-export const send = async (mail) => {
-  transporter.sendMail(mail, (error, info) => {
+export const sendEmail = async (subject, html, attachments) => {
+  console.log('开始发送邮件');
+
+  // 设置邮件内容
+  const mailOptions = {
+    from: '"Fred Foo 👻" <asdfpeng@qq.com>', // 发件地址
+    to: 'maoxiaojie@yunfarm.cn', // 收件列表
+    subject, // 标题
+    html, // html 内容
+    attachments, // 添加附件
+  };
+  transporter.sendMail(mailOptions, (error, response) => {
     if (error) {
-      return console.log(error);
+      console.log(error);
+    } else {
+      console.log(`Message sent: ${response}`);
     }
-    console.log('mail sent:', info.response);
+    // transporter.close(); // 如果没用，关闭连接池
   });
 };
 
@@ -53,7 +65,22 @@ export const mailInfo = (mail, code = '123456') => {
 // 响应激活请求，根据激活链接的用户名进行查找，若用户存在则判断激活码是否一致，并判断激活码是否过期，全部正确则改变激活状态，此时激活成功，如下代码：
 export const checkCode = () => {
 
-}
+};
+
+
+// statistics email config
+export const statisticsMailInfo = (mail, code = '123456') => {
+  const mailOptions = {
+    // 发件人
+    from: '"Fred Foo 👻" <asdfpeng@qq.com>',
+    // 主题
+    subject: '账号激活',
+    // 收件人
+    to: `${mail}`,
+  };
+  return mailOptions;
+};
+
 
 // QQ邮箱 SMTP
 // https://zhidao.baidu.com/question/14312788.html?fr=iks&word=qq+%D3%CA%CF%E4%B5%C4smtp+host&ie=gbk

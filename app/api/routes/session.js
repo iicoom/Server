@@ -7,7 +7,7 @@ import ForbiddenError from '../../util/Errors/ForbiddenError.js';
 import ErrorCode from '../../util/Errors/ErrorCode.js';
 import config from '../../../config';
 import Utility from '../../util/utils';
-import { send, mailInfo } from '../../util/email';
+import { sendEmail, mailInfo } from '../../util/email';
 import { setUserTokens, removeUserTokens } from '../../middleware/user_tokens';
 
 
@@ -41,7 +41,7 @@ export default (router) => {
       mobile && (condition.mobile = mobile);
       const user = await getUser(condition);
       if (user == null) {
-        send(mailInfo(username));
+        sendEmail(mailInfo(username));
         const result = await createUser(userInfo);
         ctx.body = result;
       } else {

@@ -8,6 +8,7 @@ import querystring from 'querystring';
 import objectid from 'objectid';
 import _ from 'lodash';
 import dateformat from 'dateformat';
+import moment from 'moment';
 
 const randomstring = require('randomstring');
 
@@ -552,6 +553,16 @@ class Utility {
   static getNowTime() {
     const now = new Date();
     return now.getTime();
+  }
+
+  /**
+   * 格式化时间戳
+   * @param timestamp
+   * @param patten
+   */
+  static formatDate(timestamp, patten) {
+    console.log(timestamp)
+    return moment(timestamp).format(patten);
   }
 
 
