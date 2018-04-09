@@ -12,7 +12,7 @@ initStatistics();
 function initStatistics() {
 
   // const basic = { h: [10], m: [17, 18, 19, 20] }; // 每天的10点17, 18, 19, 20执行statistics
-  const basic = { h: [18], m: [19] };
+  const basic = { h: [11], m: [15] };
 
   const composite = [
     basic,
@@ -47,14 +47,23 @@ function statistics() {
   const buffer = xlsx.build([
     { name: '每天统计数据', data },
   ]);
-  console.log(fs.writeFileSync(`./statistics/${fileName}`, buffer, 'binary'))
+  fs.writeFileSync(`./statistics/${fileName}`, buffer, 'binary');
   console.log('统计成功');
-  const xlsxfile = fs.readFileSync(`./statistics/${fileName}`);
+  // "nodemailer": "0.7.1" 如下写法可以
+  /* const xlsxfile = fs.readFileSync(`./statistics/${fileName}`);
   const attachment = [
     {
       filename: fileName,   // 这里只是给附件取名称
       contents: xlsxfile, // 导入文件
     },
+  ]; */
+
+  // "nodemailer": "^4.6.0" 如下写法:
+  const attachment = [
+    {
+      filename: fileName,   // 这里只是给附件取名称
+      path: `./statistics/${fileName}`, // 导入文件
+    },
   ];
-  // sendEmail(`${Utility.formatDate(beginTime, 'YYYY-MM-DD')}统计`, '', attachment);
+  sendEmail(`${Utility.formatDate(beginTime, 'YYYY-MM-DD')}统计`, '', attachment);
 }

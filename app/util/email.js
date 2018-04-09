@@ -14,35 +14,40 @@ const config = {
 const transporter = nodemailer.createTransport(config);
 
 // 发送邮件
-// module.exports = function send(mail) {
-//   transporter.sendMail(mail, (error, info) => {
-//     if (error) {
-//       return console.log(error);
-//     }
-//     console.log('mail sent:', info.response);
-//   });
-// };
-
 export const sendEmail = async (subject, html, attachments) => {
-  console.log('开始发送邮件');
+  console.log('开始发送邮件...');
 
   // 设置邮件内容
   const mailOptions = {
     from: '"Fred Foo 👻" <asdfpeng@qq.com>', // 发件地址
     to: 'maoxiaojie@yunfarm.cn', // 收件列表
     subject, // 标题
-    html, // html 内容
+    html: '统计邮件', // html 内容
     attachments, // 添加附件
   };
   transporter.sendMail(mailOptions, (error, response) => {
     if (error) {
       console.log(error);
     } else {
-      console.log(`Message sent: ${response}`);
+      console.log(`Message has been delivered: ${JSON.stringify(response)}`);
     }
     // transporter.close(); // 如果没用，关闭连接池
   });
 };
+
+/*
+response
+{
+  "accepted":["maoxiaojie@yunfarm.cn"],
+  "rejected":[],
+  "envelopeTime":223,
+  "messageTime":932,
+  "messageSize":21177,
+  "response":"250 Ok: queued as ",
+  "envelope":{"from":"asdfpeng@qq.com","to":["maoxiaojie@yunfarm.cn"]},
+  "messageId":"<c66a98e4-731b-0e1e-b71d-30c3acfa38e6@qq.com>"
+}
+*/
 
 // setup email data with unicode symbols
 export const mailInfo = (mail, code = '123456') => {
@@ -62,23 +67,19 @@ export const mailInfo = (mail, code = '123456') => {
   return mailOptions;
 };
 
+/*
+var mailOptions = {
+  from: [mailConfig.from.name, mailConfig.from.auth.user].join(' '), // 发件地址
+  to: mailConfig.to.join(','), // 收件列表
+  subject: subject, // 标题
+  html: html, // html 内容
+  attachments:attachments// 添加附件
+};
+*/
+
 // 响应激活请求，根据激活链接的用户名进行查找，若用户存在则判断激活码是否一致，并判断激活码是否过期，全部正确则改变激活状态，此时激活成功，如下代码：
 export const checkCode = () => {
 
-};
-
-
-// statistics email config
-export const statisticsMailInfo = (mail, code = '123456') => {
-  const mailOptions = {
-    // 发件人
-    from: '"Fred Foo 👻" <asdfpeng@qq.com>',
-    // 主题
-    subject: '账号激活',
-    // 收件人
-    to: `${mail}`,
-  };
-  return mailOptions;
 };
 
 
