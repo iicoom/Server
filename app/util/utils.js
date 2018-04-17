@@ -9,7 +9,10 @@ import objectid from 'objectid';
 import _ from 'lodash';
 import dateformat from 'dateformat';
 import moment from 'moment';
+import { UserHistoryService } from '../services';
+import log from '../util/log';
 
+const logger = log.getLogger('access');
 const randomstring = require('randomstring');
 
 
@@ -561,7 +564,7 @@ class Utility {
    * @param patten
    */
   static formatDate(timestamp, patten) {
-    console.log(timestamp)
+    console.log(timestamp);
     return moment(timestamp).format(patten);
   }
 
@@ -607,6 +610,15 @@ class Utility {
     const time = dateformat(this.getNowTime(), 'yyyymmddHHMMss');
     const randomNum = randomstring.generate({ length: 12, charset: 'numeric' });
     return `${time}2${randomNum}`;
+  }
+
+  /**
+   * 初始化用户历史记录
+   * @param uid
+   */
+  static initUserHistory(uid) {
+    UserHistoryService.create({ uid });
+    logger.info('initUserHistory finished！');
   }
 }
 

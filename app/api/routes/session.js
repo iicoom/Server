@@ -41,8 +41,9 @@ export default (router) => {
       mobile && (condition.mobile = mobile);
       const user = await getUser(condition);
       if (user == null) {
-        sendEmail(mailInfo(username));
+        // sendEmail(mailInfo(username));
         const result = await createUser(userInfo);
+        Utility.initUserHistory(result.id);
         ctx.body = result;
       } else {
         const error = new ClientError(ctx.i18n.__(ErrorCode.ACCOUNT_ALREADY_EXIST));

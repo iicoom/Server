@@ -1,4 +1,6 @@
 import ServerError from '../util/Errors/ServerErrors';
+import Utility from '../util/utils';
+
 /**
  * 封装model里面一些基础方法。
  *
@@ -108,8 +110,7 @@ export default class BaseService {
       return await this.model.update(condition, { $set: fields }, options);
     } catch (ex) {
       console.log(ex.message);
-      // return { errMsg: ex.message };
-      Utility.throwServerError({ msg: `更新记录失败原因:${ex.message}` });
+      throw new ServerError({ msg: `更新记录失败原因:${ex.message}` });
     }
   }
 
@@ -130,8 +131,7 @@ export default class BaseService {
       return await this.model.update(condition, fields, options);
     } catch (ex) {
       console.log(ex.message);
-      // return { errMsg: ex.message };
-      Utility.throwServerError({ msg: `更新记录失败原因:${ex.message}` });
+      throw new ServerError({ msg: `更新记录失败原因:${ex.message}` });
     }
   }
 
@@ -150,8 +150,7 @@ export default class BaseService {
       return result ? result.toJSON() : { errMsg: '无效的ID' };
     } catch (ex) {
       console.log(ex.message);
-      // return { errMsg: ex.message };
-      Utility.throwServerError({ msg: `删除失败原因:${ex.message}` });
+      throw new ServerError({ msg: `更新记录失败原因:${ex.message}` });
     }
   }
 
@@ -169,8 +168,7 @@ export default class BaseService {
       return result ? result.toJSON() : null;
     } catch (ex) {
       console.log(ex.message);
-      // return { errMsg: ex.message };
-      Utility.throwServerError({ msg: `更新记录失败原因:${ex.message}` });
+      throw new ServerError({ msg: `更新记录失败原因:${ex.message}` });
     }
   }
 
@@ -189,8 +187,7 @@ export default class BaseService {
       return result ? result.toJSON() : null;
     } catch (ex) {
       console.log(ex.message);
-      throw new ServerError(ex);
-      // Utility.throwServerError({ msg: `添加表记录失败原因:${ex.message}` });
+      throw new ServerError({ msg: `更新记录失败原因:${ex.message}` });
     }
   }
 
@@ -237,11 +234,11 @@ export default class BaseService {
   async CheckIsExists(id, displayField) {
     const { modelName } = this.model;
     if (!Utility.isMongoDBObjectId(id)) {
-      Utility.throwServerError({ msg: ` ${modelName} ID不正确` });
+      throw new ServerError({ msg: ` ${modelName} ID不正确` });
     }
     const info = await this.model.findById(id, displayField);
     if (!info) {
-      Utility.throwServerError({ msg: `检查 ${modelName} 数据不存在：${id}` });
+      throw new ServerError({ msg: `检查 ${modelName} 数据不存在：${id}` });
     }
     return info.toJSON();
   }

@@ -4,7 +4,6 @@ import UserService, { createUserWithMobile, getUserByMobile,
 import User from '../../models/user';
 import ClientError from '../../util/Errors/ClientErrors';
 import ErrorCode from '../../util/Errors/ErrorCode';
-import toolUtil from '../../util/toolUtil';
 import constant from '../../util/constant';
 import { getClientIp, setLinkHeader } from '../../util/utils';
 import auth, { needLogin, needAdmin, needResOwner, and, or } from '../../middleware/auth';
