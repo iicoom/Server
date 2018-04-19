@@ -66,11 +66,12 @@ export default (router) => {
             if (!err) {
               const state = job.state();
               const { result } = job;
-              // console.log(job) 此时结果还没有取回
+              console.log(job);  // 此时结果还没有取回
               console.log(`====job==${id}====::${state}====::${JSON.stringify(result || '')}`);
               resolve(job);
             } else {
-              throw new ClientError(`id为${id}的job查询失败！`);
+              // throw new ClientError(`id为${id}的job查询失败,${JSON.stringify(err)}`);
+              throw err;
             }
           });
         });

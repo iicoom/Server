@@ -1,20 +1,19 @@
 /**
- * 消息模板
+ * 消息模板及消息关联管理
  * Created by mxj on 2017/11/6.
  */
 
 import ClientError from '../../util/Errors/ClientErrors';
 import ErrorCode from '../../util/Errors/ErrorCode';
-import { createMsgTpl, loadMsgTpl, updateMsgTpl, removeMsgTpl, findById } from '../../services/msgTplService';
+import { MsgTplService, MsgLinkService } from '../../services';
 import { needLogin, needPlatFormAuth } from '../../middleware/auth';
 import constant from '../../util/constant';
 
-const platforms = constant.platforms;
 const roleType = constant.RoleType;
 
 export default (router) => {
   router
-    .post('/messageTpl', needLogin, needPlatFormAuth({ message: [roleType.Administor] }), async (ctx) => {
+    .post('/messageTpl', /* needLogin, needPlatFormAuth({ message: [roleType.Administor] }), */ async (ctx) => {
       const tplInfo = {
         name: ctx.checkBody('tplName').notEmpty().trim().value, // 模板名称
         content: ctx.checkBody('tplContent').notEmpty().value, // 模板内容
@@ -35,7 +34,7 @@ export default (router) => {
         }
       }
       try {
-        const tpl = await createMsgTpl(tplInfo);
+        const tpl = await MsgTplService.create(tplInfo);
         ctx.body = tpl;
       } catch (err) {
         ctx.body = err;
@@ -98,6 +97,26 @@ export default (router) => {
         if (tpl) {
           ctx.body = tpl;
         }
+      } catch (err) {
+        ctx.body = err;
+      }
+    })
+    .post('/messageLink', async (ctx) => {
+      const linkInfo = {
+        code: ctx.checkBody('code').notEmpty().trim().value,
+        name: ctx.checkBody('name').notEmpty().value,
+        msg_tpl: ctx.checkBody('msg_tpl').notEmpty().value,
+      };
+      if (ctx.errors && ctx.errors.length) {
+        ctx.status = 400;
+        const error = new ClientError(ErrorCode.PARAMS_ERROR);
+        error.errors = ctx.errors;
+        throw error;
+      }
+
+      try {
+        const link = await MsgLinkService.create(linkInfo);
+        ctx.body = link;
       } catch (err) {
         ctx.body = err;
       }

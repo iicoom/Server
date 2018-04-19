@@ -48,6 +48,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "dateformat": "^3.0.3",
+    "ejs": "^2.5.9",
     "import-dir": "0.0.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "2.2.0",

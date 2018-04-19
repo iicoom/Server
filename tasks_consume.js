@@ -116,24 +116,3 @@ jobs.process('task_consume_buySheep', async (job, done) => {
     await killTaskProceed(taskKey);
   }
 });
-
-
-// (async () => {
-//   try {
-//     const info = await connectDatabase(config.db);
-//     console.log(`Connected to ${info.host}:${info.port}/${info.name}`);
-//   } catch (error) {
-//     console.error('Unable to connect to database');
-//   }
-//
-//   try {
-//     batchRewardInit();
-//   } catch (error) {
-//     console.error(error);
-//   }
-//   // try {
-//   //   // autoFeeding();
-//   // } catch (error) {
-//   //   console.error(error);
-//   // }
-// })();

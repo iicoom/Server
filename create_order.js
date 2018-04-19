@@ -72,7 +72,6 @@ queue.process('order', (job, done) => {
 });
 
 async function autoCreateOrder(data) {
-  console.log(data);
   const result = await OrderService.create(data);
   return result;
 }
