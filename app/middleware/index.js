@@ -27,7 +27,7 @@ export default function middleware() {
       },
     })),
     convert(bodyParser()),
-    accessToken({
+    accessToken({ // 这个是自己封装的
       name: 'token',
       secret: config.session_secret,
     }),

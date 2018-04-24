@@ -2,6 +2,7 @@ import ClientError from '../../util/Errors/ClientErrors';
 import config from '../../../config';
 import ErrorCode from '../../util/Errors/ErrorCode';
 import Utility from '../../util/utils';
+import { needLogin, requestLimit } from '../../middleware/auth';
 
 
 const kue = require('kue');
@@ -30,7 +31,7 @@ const ParamError = (ctx) => {
 
 export default (router) => {
   router
-    .post('/order/job', async (ctx) => {
+    .post('/order/job', needLogin, requestLimit, async (ctx) => {
       const uid = ctx.checkBody('uid').notEmpty('').value;
       const num = ctx.checkBody('num').notEmpty('').value;
 
@@ -55,7 +56,7 @@ export default (router) => {
         });
       }
       const jobInfo = await createJob();
-      ctx.body = { jobId: jobInfo.id };
+      ctx.body = { JobId: jobInfo.id };
     })
     .get('/order/job/:id/state', async (ctx) => {
       const { id } = ctx.params;
@@ -79,7 +80,7 @@ export default (router) => {
       const jobInfo = await getJob();
       ctx.body = { jobInfo };
     })
-    .get('/order', async (ctx) => {
+    .get('/order', requestLimit, async (ctx) => {
       ctx.body = '丢雷老母';
     });
 };

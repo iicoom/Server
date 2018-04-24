@@ -86,7 +86,6 @@ export default (router) => {
       if (username && password) {
         // 根据手机号获取用户信息
         const userInfo = await getUser({ username });
-        console.log('==========getUserByMobile(username)==========');
         console.log(userInfo);
         if (userInfo) {
           // 验证登录密码是否正确
@@ -96,7 +95,6 @@ export default (router) => {
             throw new ClientError(ctx.i18n.__(ErrorCode.INVALID_USER_NAME_PASSWORD));
           } else {
             const result = userInfo;
-            // result.flage = result.is_real_name ? USER_FLAG.sinaNormal : USER_FLAG.normal;
             result.token = ctx.sessionId;
             result.expire = config.cookie_max_age;
             ctx.session.userInfo = result;
@@ -120,7 +118,7 @@ export default (router) => {
       ctx.body = { isLogin: !!ctx.session.userInfo };
     })
     // 登出用户的登录状态（删除用户session）
-    .delete('/session/signout', (ctx) => {
+    .delete('/logout', (ctx) => {
       delete ctx.session;
       ctx.body = '退出登录成功';
     });

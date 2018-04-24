@@ -2,20 +2,25 @@
  * Created by bjcwq on 16/8/3.
  */
 
+import _ from 'lodash';
 import AuthError from '../util/Errors/AuthError.js';
 import ForbiddenError from '../util/Errors/ForbiddenError.js';
 import ServerError from '../util/Errors/ServerErrors.js';
 import constant from '../util/constant.js';
-import _ from 'lodash';
 
 const debug = require('debug')('app-auth');
 
 export async function needLogin(ctx, next) {
   const sessionUserInfo = ctx.session.userInfo;
-  if (!!sessionUserInfo) {
+  const nextDevice = ctx.request.header['user-agent'];
+  console.log(nextDevice, ctx.session['user-agent']);
+  if (!!sessionUserInfo && nextDevice === ctx.session['user-agent']) {
     return await next();
+  } else if (!sessionUserInfo) {
+    throw new AuthError('请先登录');
+  } else if (ctx.session.cookie['user-agent'] !== ctx.request.header['user-agent']) {
+    throw new AuthError('您的账号已在其它设备登录，如不是您本人操作请找回密码！');
   }
-  throw new AuthError('请先登录');
 }
 
 export const needResFarm = resFarmProp => async (ctx, next) => {
@@ -27,7 +32,7 @@ export const needResFarm = resFarmProp => async (ctx, next) => {
     }
     return tmp;
   };
-  const result = __.find(ctx.session.userInfo.companies, { company_id: resFarmIdFn() });
+  const result = _.find(ctx.session.userInfo.companies, { company_id: resFarmIdFn() });
   if (!!result) {
     return await next();
   }
@@ -142,7 +147,7 @@ export const and = authRoles => async (ctx, next) => {
     result = result && false;
   };
 
-  if (__.isArray(authRoles)) {
+  if (_.isArray(authRoles)) {
     for (const authRole of authRoles) {
       await authRole(ctx, next)
         .then(resultSuccess)
@@ -157,3 +162,21 @@ export const and = authRoles => async (ctx, next) => {
   }
   throw error;
 };
+
+
+// 限制请求次数
+export async function requestLimit(ctx, next) {
+  console.log('auth.requestLimit');
+  const { last_time } = ctx.query;
+  if (!last_time) {
+    throw new ForbiddenError('参数错误');
+  } else if (!ctx.session.userInfo.last_time) {
+    ctx.session.userInfo.last_time = last_time;
+    return await next();
+  } else if (last_time > ctx.session.userInfo.last_time) {
+    ctx.session.userInfo.last_time = last_time;
+    return await next();
+  } else {
+    throw new ForbiddenError('访问次数超过限制，请稍后再试');
+  }
+}

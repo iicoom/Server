@@ -16,6 +16,8 @@ function AccessToken(opt) {
   return async function (ctx, next) {
     let accessToken = ctx.query.access_token;
     const authorization = ctx.get('Authorization');
+    console.log('authorization')
+    console.log(authorization)
     if (!accessToken && !!authorization && authorization.indexOf('token') !== -1) {
       const tokenBeginIndex = authorization.indexOf('token');
       accessToken = authorization.substr(tokenBeginIndex + 6);
@@ -23,6 +25,7 @@ function AccessToken(opt) {
 
     if (!!accessToken) {
       ctx.sessionId = accessToken;
+      console.log(ctx.sessionId)
       setcookie(ctx, option.name, accessToken, option.secret, {});
     }
     await next();
