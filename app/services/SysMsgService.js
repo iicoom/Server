@@ -1,8 +1,8 @@
 import Msg from '../models/message';
-import log from '../util/log';
+// import log from '../util/log';
 
-const logger = log.getLogger('system-msg');
-logger.setLevel('DEBUG');
+// const logger = log.getLogger('system-msg');
+// logger.setLevel('DEBUG');
 
 class SysMsgServer {
 

@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
   try {
 
     // console.log(config)
-    const info = await connectDatabase(config.db);
+    await connectDatabase(config.db);
   } catch (error) {
     console.error('www.js Unable to connect to database');
   }

@@ -1,8 +1,10 @@
+/* eslint-disable import/no-mutable-exports */
 /**
  * Created by bj on 16/7/28.
  */
 const env = process.env.NODE_ENV;
 
+// 生产环境
 const productionConfig = {
   session_secret: 'cH38wtQAj9X672QgNUR0L7x5n1MNIh556677',
   cookie_max_age: 10 * 24 * 3600 * 1000, // 864000000ms
@@ -63,7 +65,7 @@ const functionalConfig = {
   },
 };
 
-//  开发环境
+// 开发环境
 const devConfig = {
   db: 'mongodb://127.0.0.1/koa-test',
   redis: {
@@ -114,14 +116,17 @@ const preConfig = {
 };
 console.log('config env::', env);
 
-let finalConfig = productionConfig;
+let finalConfig;
 
 if (env === 'test') {
-  finalConfig = { ...productionConfig, ...testConfig };
+  finalConfig = { ...preConfig, ...testConfig };
 } else if (env === 'development') {
-  finalConfig = { ...productionConfig, ...devConfig };
+  finalConfig = { ...preConfig, ...devConfig };
 } else if (env === 'functional') {
-  finalConfig = { ...productionConfig, ...functionalConfig };
+  finalConfig = { ...preConfig, ...functionalConfig };
+} else if (env === 'production') {
+  finalConfig = { ...preConfig, ...productionConfig };
 }
+
 
 export default finalConfig;

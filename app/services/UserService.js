@@ -13,8 +13,8 @@ import log from '../util/log';
 
 import { rc } from './redis.js';
 
-const logger = log.getLogger('user');
-logger.setLevel('INFO');
+// const logger = log.getLogger('user');
+// logger.setLevel('INFO');
 
 
 const resource = 'user';
