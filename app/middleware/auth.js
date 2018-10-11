@@ -1,5 +1,5 @@
 /**
- * Created by bjcwq on 16/8/3.
+ * Created by mxj on 16/8/3.
  */
 
 import _ from 'lodash';

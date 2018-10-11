@@ -1,7 +1,4 @@
 /* eslint-disable import/no-mutable-exports */
-/**
- * Created by bj on 16/7/28.
- */
 const env = process.env.NODE_ENV;
 
 // 生产环境

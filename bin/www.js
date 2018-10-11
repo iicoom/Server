@@ -10,17 +10,12 @@ const port = process.env.PORT || 3000;
 
 (async () => {
   try {
-
-    // console.log(config)
     await connectDatabase(config.db);
   } catch (error) {
     console.error('www.js Unable to connect to database');
   }
 
   try {
-    // await registerLocalClient();
-    // await registerAdminUser();
-
     const server = http.createServer(app.callback()).listen(port);
     console.log(`Server started on port ${port}`);
 
