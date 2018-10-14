@@ -17,7 +17,7 @@ ErrorCode.MOBILE_FORMAT_ERROR = 'mobile format error'; // 手机号格式错误
 ErrorCode.EMAIL_FORMAT_ERROR = 'email format error';// 邮箱格式错误
 ErrorCode.SMS_TPL_NOT_EMPTY = 'sms tpl not empty'; // 短信模板不能为空
 ErrorCode.PASSWORD_FORMAT_ERROR = 'password format error'; // 密码格式错误
-ErrorCode.INVALID_USER_NAME_PASSWORD = 'invalid user name password'; // 无效的用户名密码
+ErrorCode.INVALID_USER_NAME_PASSWORD = { message: 'invalid user name password', code: 401 }; // 无效的用户名密码
 
 ErrorCode.CAPTCHA_SEND_WAY_NOT_EMPTY = 'captcha send way not empty'; // 验证码发送方式不能为空
 ErrorCode.UNKNOWN_CAPTCHA_WAY_TO_SEND = 'unknown captcha way to send'; // 未知的验证码发送方式

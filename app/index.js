@@ -34,23 +34,25 @@ app.use((ctx) => {
 });
 
 app.context.onerror = function (err) {
-  console.error('server error', err);
+  console.error('server error:', err);
   if (err == null) {
     return;
   }
 
-  let message = err.message ? err.message : JSON.stringify(err);
-  try {
-    const errMsg = JSON.parse(message);
-    if (errMsg && errMsg.message) {
-      message = errMsg.message;
-    }
-  } catch (e) {
-    //
-  }
+  const message = err.message ? err.message : JSON.stringify(err);
+  const code = err.status;
+  // try {
+  //   const errMsg = JSON.parse(message);
+  //   if (errMsg && errMsg.message) {
+  //     message = errMsg.message;
+  //   }
+  // } catch (e) {
+  //   //
+  // }
 
   this.body = {
     message,
+    code,
   };
 
   if (err.status >= 400 || err.status <= 499) {

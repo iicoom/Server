@@ -1,5 +1,5 @@
 /**
- * Created by bjcwq on 16/8/1.
+ * Created by mxj on 16/8/1.
  */
 import _ from 'lodash';
 import randomstring from 'randomstring';
@@ -9,7 +9,7 @@ import ServerError from '../util/Errors/ServerErrors.js';
 import ClientError from '../util/Errors/ClientErrors.js';
 import Utility from '../util/utils.js';
 
-import log from '../util/log';
+// import log from '../util/log';
 
 import { rc } from './redis.js';
 
@@ -44,7 +44,6 @@ const getWeixinUserInfo = async (user) => {
 export const createUser = async (userInfo) => {
   userInfo.salt = randomstring.generate(24);
   userInfo.password = Utility.sha256(userInfo.password + userInfo.salt);
-  console.log('wosljfaslkdfsd')
   try {
     console.log(userInfo);
     const user = await User.create(userInfo);
@@ -68,7 +67,7 @@ export const createUserWithMobile = async (userInfo) => {
         if (!user) {
           if (userInfo.password) {
             userInfo.salt = randomstring.generate(24);
-            userInfo.password = sha256(userInfo.password + userInfo.salt);
+            userInfo.password = Utility.sha256(userInfo.password + userInfo.salt);
           }
           console.log(userInfo);
           user = await User.create(userInfo);
@@ -100,7 +99,7 @@ export async function getUserById(userId) {
   }
 }
 
-export const getUser = async (condition) => {
+export const getUserByName = async (condition) => {
   try {
     const user = await User.findOne(condition);
     if (user) {
