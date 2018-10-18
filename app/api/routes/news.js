@@ -1,4 +1,4 @@
-import { AnnouncementService, UserService } from '../../services';
+import { newsService, UserService } from '../../services';
 import ClientError from '../../util/Errors/ClientErrors';
 import ErrorCode from '../../util/Errors/ErrorCode';
 import { needLogin, needAdmin } from '../../middleware/auth';
@@ -13,32 +13,29 @@ const ParamError = (ctx) => {
 
 export default (router) => {
   router
-  // 创建公告
-    .post('/announcement', async (ctx) => {
-      const anInfo = {
+  // 创建资讯
+    .post('/news', async (ctx) => {
+      const newsInfo = {
         title: ctx.checkBody('title').notEmpty('标题不能为空！').trim().value,
-        type: ctx.checkBody('type').notEmpty('类型不能为空！').trim().value,
-        start_time: ctx.checkBody('start_time').notEmpty('开始时间不能为空！').trim().value,
-        end_time: ctx.checkBody('end_time').notEmpty('结束时间不能为空！').trim().value,
-        full_content: ctx.checkBody('full_content').notEmpty('内容不能为空！').trim().value,
+        // type: ctx.checkBody('type').notEmpty('类型不能为空！').trim().value,
         abstract: ctx.checkBody('abstract').notEmpty('摘要不能为空！').trim().value,
-        // link_name: ctx.checkBody('link_name').notEmpty('链接名字不能为空！').trim().value,
-        // link_addr: ctx.checkBody('link_addr').notEmpty('链接地址不能为空！').trim().value,
-        // link_is_show: ctx.checkBody('link_is_show').notEmpty('链接状态不能为空！').trim().value,
-        state: ctx.checkBody('state').notEmpty('公告状态不能为空！').trim().value,
+        content: ctx.checkBody('content').notEmpty('内容不能为空！').trim().value,
+        image_url: ctx.checkBody('image_url').notEmpty('图片链接不能为空！').trim().value,
+        // link: ctx.checkBody('link_addr').notEmpty('链接地址不能为空！').trim().value,
+        // state: ctx.checkBody('state').notEmpty('资讯状态不能为空！').trim().value,
       };
       if (ctx.errors && ctx.errors.length > 0) {
         ParamError(ctx);
         return;
       }
-      if (anInfo.start_time > anInfo.end_time) {
-        throw new ClientError('结束时间必须大于开始时间');
-      }
+      // if (newsInfo.start_time > newsInfo.end_time) {
+      //   throw new ClientError('结束时间必须大于开始时间');
+      // }
 
-      ctx.body = await AnnouncementService.create(anInfo);
+      ctx.body = await newsService.create(newsInfo);
     })
-  // 获取公告列表
-    .get('/announcement', async (ctx) => {
+  // 获取资讯列表
+    .get('/news', async (ctx) => {
       const condition = {};
       // if (ctx.session.userInfo.role_type === constant.RoleType.User) {
       //   condition.state = 'publish';
@@ -55,14 +52,16 @@ export default (router) => {
         limit: ctx.query.size || 15,
         skip: ctx.query.page || 0,
       };
-      const result = await AnnouncementService.find(condition, {}, opt);
-      const total = await AnnouncementService.count(condition, {}, opt);
-      ctx.body = { result, total };
+      const result = await newsService.find(condition, {}, opt);
+      const total = await newsService.count(condition, {}, opt);
+      const page = opt.skip + 1;
+      const size = opt.limit;
+      ctx.body = { total, page, size, result };
     })
-  // 获取公告详情
-    .get('/announcement/:id', needLogin, async (ctx) => {
+  // 获取资讯详情
+    .get('/news/:id', needLogin, async (ctx) => {
       const anId = ctx.params.id;
-      ctx.body = await AnnouncementService.findById(anId);
+      ctx.body = await newsService.findById(anId);
     })
   // 获取最新一条
     .get('/lastone', needLogin, async (ctx) => {
@@ -81,11 +80,11 @@ export default (router) => {
         skip: ctx.query.page || 0,
         limit: ctx.query.size || 15,
       };
-      const result = AnnouncementService.find(condition, {}, opt);
+      const result = newsService.find(condition, {}, opt);
       ctx.body = result;
     })
-  // 编辑公告
-    .put('/announcement/:id', needAdmin, async (ctx) => {
+  // 编辑资讯
+    .put('/news/:id', needAdmin, async (ctx) => {
       const updateInfo = {
         title: ctx.checkBody('title').notEmpty('标题不能为空！').trim().value,
         type: ctx.checkBody('type').notEmpty('类型不能为空！').trim().value,
@@ -96,7 +95,7 @@ export default (router) => {
         link_name: ctx.checkBody('link_name').notEmpty('链接名字不能为空！').trim().value,
         link_addr: ctx.checkBody('link_addr').notEmpty('链接地址不能为空！').trim().value,
         link_is_show: ctx.checkBody('link_is_show').notEmpty('链接状态不能为空！').trim().value,
-        state: ctx.checkBody('state').notEmpty('公告状态不能为空！').trim().value,
+        state: ctx.checkBody('state').notEmpty('资讯状态不能为空！').trim().value,
       };
       if (ctx.errors && ctx.errors.length > 0) {
         ParamError(ctx);
@@ -105,15 +104,15 @@ export default (router) => {
         throw new ClientError('结束时间必须大于开始时间');
       }
       const opt = { new: true };
-      const result = await AnnouncementService.update(updateInfo, {}, opt);
+      const result = await newsService.update(updateInfo, {}, opt);
       ctx.body = result;
     })
-  // 删除公告
-    .delete('/announcement/:id', needAdmin, async (ctx) => {
+  // 删除资讯
+    .delete('/news/:id', needAdmin, async (ctx) => {
       const anId = ctx.params.id;
-      const ready = await AnnouncementService.findById(anId);
+      const ready = await newsService.findById(anId);
       if (ready) {
-        const result = await AnnouncementService.findByIdAndRemove(anId);
+        const result = await newsService.findByIdAndRemove(anId);
         ctx.body = result;
       } else {
         const error = new ClientError(ErrorCode.ErrorParams);
