@@ -108,7 +108,7 @@ export default (router) => {
       ctx.body = result;
     })
   // 删除资讯
-    .delete('/news/:id', needAdmin, async (ctx) => {
+    .delete('/news/:id',/* needAdmin,*/ async (ctx) => {
       const anId = ctx.params.id;
       const ready = await newsService.findById(anId);
       if (ready) {
