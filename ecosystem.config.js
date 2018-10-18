@@ -4,7 +4,7 @@
 module.exports = {
   apps: [{
     name: 'Koa-server',
-    script: './bin/www.js',
+    script: './index.js',
     instances: 1,
     max_memory_restart: '1G',
     node_args: [],
