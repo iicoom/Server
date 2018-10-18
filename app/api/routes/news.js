@@ -59,7 +59,7 @@ export default (router) => {
       ctx.body = { total, page, size, list };
     })
   // 获取资讯详情
-    .get('/news/:id', needLogin, async (ctx) => {
+    .get('/news/:id', /*needLogin,*/ async (ctx) => {
       const anId = ctx.params.id;
       ctx.body = await newsService.findById(anId);
     })
@@ -84,7 +84,7 @@ export default (router) => {
       ctx.body = result;
     })
   // 编辑资讯
-    .put('/news/:id', needAdmin, async (ctx) => {
+    .put('/news/:id', /*needAdmin,*/ async (ctx) => {
       const updateInfo = {
         title: ctx.checkBody('title').notEmpty('标题不能为空！').trim().value,
         type: ctx.checkBody('type').notEmpty('类型不能为空！').trim().value,
