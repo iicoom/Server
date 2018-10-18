@@ -52,11 +52,11 @@ export default (router) => {
         limit: ctx.query.size || 15,
         skip: ctx.query.page || 0,
       };
-      const result = await newsService.find(condition, {}, opt);
+      const list = await newsService.find(condition, {}, opt);
       const total = await newsService.count(condition, {}, opt);
       const page = opt.skip + 1;
       const size = opt.limit;
-      ctx.body = { total, page, size, result };
+      ctx.body = { total, page, size, list };
     })
   // 获取资讯详情
     .get('/news/:id', needLogin, async (ctx) => {

@@ -68,8 +68,8 @@ export default class BaseService {
     try {
       const list = await this.model.find(condition, fields, options);
       // return list ? JSON.parse(JSON.stringify(list)) : [];
-      const total = await this.model.count(condition);
-      return { list, total };
+      // const total = await this.model.count(condition);
+      return list;
     } catch (ex) {
       throw ex;
     }
