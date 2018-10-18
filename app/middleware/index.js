@@ -23,7 +23,7 @@ export default function middleware() {
                     || (/(127\.0\.0\.1)($|:[0-9]*$)/.test(origin)))) {
           return origin;
         }
-        return 'https://m.yunfarm.cn';
+        return 'http://www.fuck.com';
       },
     })),
     convert(bodyParser()),
