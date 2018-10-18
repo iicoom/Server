@@ -15,17 +15,17 @@ export default function middleware() {
   return compose([
     convert(accessLogger()),
     convert(helmet()), // reset HTTP headers (e.g. remove x-powered-by)
-    convert(cors({
-      origin: (request) => {
-        const origin = request.get('Origin');
-        if (origin && (/(\.yunfarm\.cn)($|:[0-9]*$)/.test(origin)
-                    || (/(localhost)($|:[0-9]*$)/.test(origin))
-                    || (/(127\.0\.0\.1)($|:[0-9]*$)/.test(origin)))) {
-          return origin;
-        }
-        return 'http://www.fuck.com';
-      },
-    })),
+    // convert(cors({
+    //   origin: (request) => {
+    //     const origin = request.get('Origin');
+    //     if (origin && (/(\.yunfarm\.cn)($|:[0-9]*$)/.test(origin)
+    //                 || (/(localhost)($|:[0-9]*$)/.test(origin))
+    //                 || (/(127\.0\.0\.1)($|:[0-9]*$)/.test(origin)))) {
+    //       return origin;
+    //     }
+    //     return 'http://www.fuck.com';
+    //   },
+    // })),
     convert(bodyParser()),
     accessToken({ // 这个是自己封装的
       name: 'token',
