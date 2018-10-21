@@ -67,7 +67,7 @@ export default (router) => {
       }
     })
     // 登录
-    .post('/login', setUserTokens, async (ctx) => {
+    .post('/login', async (ctx) => {
       const { username, password, mobile, captcha } = ctx.request.body;
       ctx.session.ip = Utility.getClientIp(ctx.request);
       ctx.session['user-agent'] = ctx.request.header['user-agent'];
