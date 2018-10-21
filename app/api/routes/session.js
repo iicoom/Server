@@ -57,7 +57,7 @@ export default (router) => {
       const code = ctx.query.code;
       const outdate = ctx.query.outdate;
       // 校验code，最好再校验失效时间...
-      console.log(username)
+      console.log(username);
       const user = await getUser({ username });
       if (user) {
         await updateUserByName(username, { is_activate: true });
@@ -110,8 +110,14 @@ export default (router) => {
         throw new ClientError(ctx.i18n.__(ErrorCode.INVALID_USER_NAME_PASSWORD));
       }
     })
-    .get('/session', async (ctx) => {
-      ctx.body = ctx.session.userInfo;
+    .get('/currentUser', async (ctx) => {
+      const { userInfo } = ctx.session;
+      console.log(userInfo);
+      if (userInfo) {
+        ctx.body = userInfo;
+      } else {
+        ctx.body = null;
+      }
     })
     // 判断用户是否登录
     .get('/session/loginState', (ctx) => {

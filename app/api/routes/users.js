@@ -37,8 +37,6 @@ export default (router) => {
       } else {
         ctx.body = '查询条件呢亲？';
       }
-
-
     })
   // 验证手机号是否已经存在
     .get('/users/mobile/exists', async (ctx) => {
