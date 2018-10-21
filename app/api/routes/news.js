@@ -85,26 +85,20 @@ export default (router) => {
     })
   // 编辑资讯
     .put('/news/:id', /*needAdmin,*/ async (ctx) => {
+      const { id } = ctx.params;
       const updateInfo = {
         title: ctx.checkBody('title').notEmpty('标题不能为空！').trim().value,
-        type: ctx.checkBody('type').notEmpty('类型不能为空！').trim().value,
-        start_time: ctx.checkBody('start_time').notEmpty('开始时间不能为空！').trim().value,
-        end_time: ctx.checkBody('end_time').notEmpty('结束时间不能为空！').trim().value,
-        full_content: ctx.checkBody('full_content').notEmpty('内容不能为空！').trim().value,
+        // type: ctx.checkBody('type').notEmpty('类型不能为空！').trim().value,
         abstract: ctx.checkBody('abstract').notEmpty('摘要不能为空！').trim().value,
-        link_name: ctx.checkBody('link_name').notEmpty('链接名字不能为空！').trim().value,
-        link_addr: ctx.checkBody('link_addr').notEmpty('链接地址不能为空！').trim().value,
-        link_is_show: ctx.checkBody('link_is_show').notEmpty('链接状态不能为空！').trim().value,
-        state: ctx.checkBody('state').notEmpty('资讯状态不能为空！').trim().value,
+        content: ctx.checkBody('content').notEmpty('内容不能为空！').trim().value,
+        image_url: ctx.checkBody('image_url').notEmpty('图片链接不能为空！').trim().value,
+        // link: ctx.checkBody('link_addr').notEmpty('链接地址不能为空！').trim().value,
+        // state: ctx.checkBody('state').notEmpty('资讯状态不能为空！').trim().value,
       };
       if (ctx.errors && ctx.errors.length > 0) {
         ParamError(ctx);
       }
-      if (updateInfo.start_time > updateInfo.end_time) {
-        throw new ClientError('结束时间必须大于开始时间');
-      }
-      const opt = { new: true };
-      const result = await newsService.update(updateInfo, {}, opt);
+      const result = await newsService.findByIdAndUpdate(id, updateInfo);
       ctx.body = result;
     })
   // 删除资讯
