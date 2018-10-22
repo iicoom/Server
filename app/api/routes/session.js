@@ -49,7 +49,7 @@ export default (router) => {
         ctx.body = result;
       } else {
         const error = new ClientError(ctx.i18n.__(ErrorCode.ACCOUNT_ALREADY_EXIST));
-        ctx.body = error;
+        throw error;
       }
     })
     .get('/emailVerify', async (ctx) => {
