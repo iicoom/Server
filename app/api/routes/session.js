@@ -17,7 +17,6 @@ export default (router) => {
     // 注册
     .post('/register', async (ctx) => {
       const { username, password, mobile, captcha, role } = ctx.request.body;
-      const userInfo = {};
       ctx.checkBody('username').notEmpty(ctx.i18n.__(ErrorCode.PASSWORD_NOT_EMPTY));
       ctx.checkBody('password').notEmpty(ctx.i18n.__(ErrorCode.PASSWORD_NOT_EMPTY));
       ctx.checkBody('confirm').notEmpty(ctx.i18n.__(ErrorCode.CONFIRM_PASSWORD_NOT_EMPTY)).eq(password, ctx.i18n.__(ErrorCode.TWO_PASSWORD_NOT_CONSISTENT));
@@ -27,10 +26,13 @@ export default (router) => {
         error.errors = ctx.errors;
         throw error;
       }
+
+      const userInfo = {};
       if (username && password) {
         userInfo.username = username;
         userInfo.password = password;
         userInfo.role_type = role || constant.RoleType.User;
+        userInfo.avatar = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
       } else if (mobile && captcha) {
         userInfo.mobile = ctx.checkBody('mobile').isMobilePhone(ctx.i18n.__(ErrorCode.MOBILE_FORMAT_ERROR), 'zh-CN');
         ctx.checkBody('captcha').notEmpty(ctx.i18n.__(ErrorCode.PASSWORD_NOT_EMPTY));

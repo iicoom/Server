@@ -31,10 +31,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  is_activate: { type: Boolean, default: false }, // 是否激活新浪用户
   is_real_name: { type: Boolean, default: false }, // 是否实名认证
-  is_binding_verify: { type: Boolean, default: false }, // 是否绑定实名认证
-  is_set_pay_password: { type: Boolean, default: false }, // 是否设置支付密码
   modify_mobile: { // 是否修改手机号
     type: Boolean,
     default: false,
